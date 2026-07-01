@@ -14,15 +14,18 @@ defmodule <%= root %>.Request do
   def run(spec) do
     {call, params} = Keyword.split(spec[:opts] || [], @reserved)
     {query, body} = route_params(params, spec[:params] || %{}, spec[:query] || [])
+    {req_params, req_rest} = Keyword.pop(call[:req] || [], :params, [])
+    query = merge_params(query, req_params)
     url = @base_url |> URI.merge(fill(spec[:url], spec[:path_params] || %{})) |> URI.to_string()
+    media? = media_download?(query)
 
     [method: spec[:method], url: url]
     |> put(:params, query != [] && query)
     |> put(:json, body)
     |> put(:auth, call[:token] && {:bearer, call[:token]})
-    |> Keyword.merge(call[:req] || [])
-    |> Req.request()
-    |> Response.decode(spec[:decode], decode_flag(call, query))
+    |> maybe_put_raw_body(media?)
+    |> execute(req_rest)
+    |> Response.decode(spec[:decode], maybe_no_decode(call, media?))
   end
 
   @doc false
@@ -33,16 +36,31 @@ defmodule <%= root %>.Request do
   def upload(spec) do
     {call, params} = Keyword.split(spec[:opts] || [], @reserved)
     {query, _body} = route_params(params, spec[:params] || %{}, spec[:query] || [])
-    query = [{"uploadType", spec[:upload_type]} | query]
+    {req_params, req_rest} = Keyword.pop(call[:req] || [], :params, [])
+    query = merge_params([{"uploadType", spec[:upload_type]} | query], req_params)
     url = @base_url |> URI.merge(fill(spec[:url], spec[:path_params] || %{})) |> URI.to_string()
     {body, content_type, size} = build_upload(spec, call)
+    headers = [{"content-type", content_type} | content_length(size)]
 
-    [method: spec[:method], url: url, params: query, body: body]
-    |> Keyword.put(:headers, [{"content-type", content_type} | content_length(size)])
+    [method: spec[:method], url: url, params: query, body: body, headers: headers]
     |> put(:auth, call[:token] && {:bearer, call[:token]})
-    |> Keyword.merge(call[:req] || [])
-    |> Req.request()
+    |> execute(req_rest)
     |> Response.decode(spec[:decode], call)
+  end
+
+  # Builds the Req request and applies the remaining caller `:req` overrides with
+  # Req.merge/2 (headers/auth/adapter/etc.). Query params are handled by run/upload
+  # instead — they use string keys (exact wire names) that Req.merge would route
+  # through Keyword.merge/2 and reject.
+  defp execute(options, req_rest) do
+    options |> Req.new() |> Req.merge(req_rest) |> Req.request()
+  end
+
+  # Combines query params, letting caller params override generated ones by key.
+  defp merge_params(generated, caller) do
+    Enum.reduce(caller, generated, fn {key, value}, acc ->
+      List.keystore(acc, to_string(key), 0, {to_string(key), value})
+    end)
   end
 
   # Routes each opt to the query string or request body per the endpoint's spec;
@@ -108,14 +126,17 @@ defmodule <%= root %>.Request do
 
   defp content_length(size), do: [{"content-length", Integer.to_string(size)}]
 
-  # `alt=media` downloads return raw bytes, so decoding is disabled automatically.
-  defp decode_flag(call, query) do
-    if Enum.any?(query, fn {k, v} -> k == "alt" and to_string(v) == "media" end) do
-      Keyword.put(call, :decode, false)
-    else
-      call
-    end
+  defp media_download?(query) do
+    Enum.any?(query, fn {k, v} -> k == "alt" and to_string(v) == "media" end)
   end
+
+  # Tell Req not to decode the body (raw bytes) on a media download.
+  defp maybe_put_raw_body(options, true), do: Keyword.put(options, :decode_body, false)
+  defp maybe_put_raw_body(options, false), do: options
+
+  # Tell Response not to build a struct on a media download.
+  defp maybe_no_decode(call, true), do: Keyword.put(call, :decode, false)
+  defp maybe_no_decode(call, false), do: call
 
   # Substitutes `{name}` / `{+name}` path templates with their values.
   defp fill(url, path_params) do

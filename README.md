@@ -111,4 +111,6 @@ token = Goth.fetch!(MyApp.Goth).token
 
 Required path/query parameters are positional; everything else — query
 parameters, the request `:body`, and `:token` — rides in the trailing `opts`
-keyword. Every call returns `{:ok, decoded}` or `{:error, %Gcp.Storage.Error{}}`.
+keyword. Every call returns `{:ok, decoded}` on success, `{:error, %Gcp.Storage.Error{}}`
+for an error response (HTTP 4xx/5xx), or `{:error, exception}` (e.g.
+`%Req.TransportError{}`) for transport-level failures.

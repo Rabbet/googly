@@ -107,6 +107,54 @@ defmodule Googen.GeneratorTest do
     assert url =~ "https://widget.googleapis.com/widget/v1/widgets/w1"
   end
 
+  test "caller :req params merge with generated params instead of crashing" do
+    parent = self()
+
+    adapter = fn request ->
+      send(parent, {:url, URI.to_string(request.url)})
+      {request, %Req.Response{status: 200, body: %{"name" => "w"}}}
+    end
+
+    assert {:ok, _} =
+             Gcp.Widget.Widgets.get("w1",
+               fields: "name",
+               token: "tok",
+               req: [adapter: adapter, params: [extra: "1"]]
+             )
+
+    # both the generated `fields` param and the caller's `extra` param survive
+    assert_received {:url, url}
+    assert url =~ "fields=name"
+    assert url =~ "extra=1"
+  end
+
+  test "media detection follows the merged alt param, not just the generated one" do
+    json = fn request ->
+      {request,
+       %Req.Response{
+         status: 200,
+         headers: %{"content-type" => ["application/json"]},
+         body: ~s({"name":"w"})
+       }}
+    end
+
+    # caller forces alt=media via :req params -> raw bytes, no decoding
+    assert {:ok, body} =
+             Gcp.Widget.Widgets.get("w1", token: "t", req: [adapter: json, params: [alt: "media"]])
+
+    assert body == ~s({"name":"w"})
+
+    # caller overrides a generated alt=media back to alt=json -> decoded struct
+    assert {:ok, widget} =
+             Gcp.Widget.Widgets.get("w1",
+               alt: "media",
+               token: "t",
+               req: [adapter: json, params: [alt: "json"]]
+             )
+
+    assert widget.__struct__ == Gcp.Widget.Model.Widget
+  end
+
   test "error responses come back as the client's Error struct" do
     adapter = fn request ->
       {request,
@@ -120,6 +168,23 @@ defmodule Googen.GeneratorTest do
     assert error.status == 404
     assert error.code == 404
     assert error.message == "nope"
+  end
+
+  test "alt=media returns raw bytes even when the body is application/json" do
+    adapter = fn request ->
+      {request,
+       %Req.Response{
+         status: 200,
+         headers: %{"content-type" => ["application/json"]},
+         body: ~s({"stored":"json"})
+       }}
+    end
+
+    assert {:ok, body} =
+             Gcp.Widget.Widgets.get("w1", alt: "media", token: "tok", req: [adapter: adapter])
+
+    # raw bytes, not JSON-decoded to a map and not built into a struct
+    assert body == ~s({"stored":"json"})
   end
 
   test "multipart streams a File.Stream from disk with a computed content-length" do

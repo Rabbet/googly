@@ -25,7 +25,9 @@ token = Goth.fetch!(MyApp.Goth).token
 {:ok, result} = <%= root %>.<%= example_resource %>.<%= example_fun %>(token: token)
 ```
 
-Every call returns `{:ok, decoded}` or `{:error, %<%= root %>.Error{}}`.
+Every call returns `{:ok, decoded}` on success. Failures are
+`{:error, %<%= root %>.Error{}}` for an error *response* (HTTP 4xx/5xx), or
+`{:error, exception}` (e.g. `%Req.TransportError{}`) for transport-level failures.
 
 ## Docs
 
