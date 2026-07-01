@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Storage",
+    "version": "v1",
+    "url": "https://storage.googleapis.com/$discovery/rest?version=v1"
+  },
+  {
+    "name": "Vision",
+    "version": "v1",
+    "url": "https://vision.googleapis.com/$discovery/rest?version=v1"
+  },
+  {
+    "name": "DocumentAI",
+    "version": "v1",
+    "url": "https://documentai.googleapis.com/$discovery/rest?version=v1"
+  }
+]
