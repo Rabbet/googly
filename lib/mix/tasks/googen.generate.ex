@@ -13,7 +13,9 @@ defmodule Mix.Tasks.Googen.Generate do
   @impl true
   def run(args) do
     Application.ensure_all_started(:req)
-    configs = if args == [], do: ApiConfig.load_all(), else: Enum.flat_map(args, &ApiConfig.load/1)
+
+    configs =
+      if args == [], do: ApiConfig.load_all(), else: Enum.flat_map(args, &ApiConfig.load/1)
 
     Enum.each(configs, fn config ->
       case Googen.build(config) do

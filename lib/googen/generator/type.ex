@@ -76,7 +76,12 @@ defmodule Googen.Generator.Type do
     spec = Ctx.typespec(context, ref)
 
     if model && model.is_array do
-      %__MODULE__{name: "array", struct: struct, typespec: "list(#{spec})", decode: {:struct, struct}}
+      %__MODULE__{
+        name: "array",
+        struct: struct,
+        typespec: "list(#{spec})",
+        decode: {:struct, struct}
+      }
     else
       %__MODULE__{name: "object", struct: struct, typespec: spec, decode: {:struct, struct}}
     end
@@ -90,7 +95,12 @@ defmodule Googen.Generator.Type do
 
   def from_schema(%{type: "string", format: fmt}, _context)
       when fmt in ["date-time", "time", "google-datetime"],
-      do: %__MODULE__{name: "datetime", struct: "DateTime", typespec: "DateTime.t()", decode: :datetime}
+      do: %__MODULE__{
+        name: "datetime",
+        struct: "DateTime",
+        typespec: "DateTime.t()",
+        decode: :datetime
+      }
 
   def from_schema(%{type: "string"}, _context),
     do: %__MODULE__{name: "string", typespec: "String.t()", decode: :raw}
@@ -109,7 +119,12 @@ defmodule Googen.Generator.Type do
 
   # An inline object with no additionalProperties becomes its own model.
   def from_schema(%{type: "object"}, context),
-    do: %__MODULE__{name: "object", struct: Ctx.struct_name(context), typespec: Ctx.typespec(context), decode: {:struct, Ctx.struct_name(context)}}
+    do: %__MODULE__{
+      name: "object",
+      struct: Ctx.struct_name(context),
+      typespec: Ctx.typespec(context),
+      decode: {:struct, Ctx.struct_name(context)}
+    }
 
   def from_schema(_schema, _context),
     do: %__MODULE__{name: "string", typespec: "String.t()", decode: :raw}

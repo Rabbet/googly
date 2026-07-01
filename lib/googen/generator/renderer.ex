@@ -39,7 +39,13 @@ defmodule Googen.Generator.Renderer do
   # -- package-file wrappers (compute derived values from the token) ----------
 
   def mix_exs(token) do
-    mix_exs_tpl(token.module_root, token.package_name, version(token), description(token), docs_link(token))
+    mix_exs_tpl(
+      token.module_root,
+      token.package_name,
+      version(token),
+      description(token),
+      docs_link(token)
+    )
   end
 
   def readme(token) do
@@ -57,7 +63,8 @@ defmodule Googen.Generator.Renderer do
     )
   end
 
-  def formatter, do: "[\n  inputs: [\"{mix,.formatter}.exs\", \"{config,lib,test}/**/*.{ex,exs}\"]\n]\n"
+  def formatter,
+    do: "[\n  inputs: [\"{mix,.formatter}.exs\", \"{config,lib,test}/**/*.{ex,exs}\"]\n]\n"
 
   def gitignore, do: "/_build/\n/cover/\n/deps/\n/doc/\nerl_crash.dump\n*.ez\n*.beam\n"
 
@@ -110,7 +117,9 @@ defmodule Googen.Generator.Renderer do
 
   @doc "Positional-argument prefix for an endpoint's function head (with trailing comma)."
   def signature_args(%{required_parameters: []}), do: ""
-  def signature_args(%{required_parameters: ps}), do: Enum.map_join(ps, ", ", & &1.variable_name) <> ", "
+
+  def signature_args(%{required_parameters: ps}),
+    do: Enum.map_join(ps, ", ", & &1.variable_name) <> ", "
 
   @doc "Path-template substitutions map body: `\"wire\" => value`."
   def path_params(ep) do
