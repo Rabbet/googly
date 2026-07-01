@@ -1,0 +1,114 @@
+# AGENTS.md
+
+Guidance for agents (and humans) working in this repo.
+
+## What this is
+
+`googen` generates modern, self-contained Elixir clients for **any** Google API
+from its [Discovery document](https://developers.google.com/discovery). Two halves:
+
+- **The generator** (`lib/`) — reads a discovery doc and turns it into structs.
+- **The templates** (`templates/client/`) — EEx that renders those structs into a
+  client package under `clients/<package>/`.
+
+Generated clients depend only on `req` + `jason`. Each client vendors its own small
+runtime, so it's independently publishable to Hex.
+
+## Golden rule
+
+**Never hand-edit generated clients.** Everything under `clients/` and
+`specifications/gdd/` is build output — gitignored, with only a `.gitkeep`
+tracked. Every generated file starts with `# NOTE: This file is auto generated
+by googen.` To change generated code, edit a **template** or the **generator**
+and regenerate.
+
+## Commands
+
+```sh
+mix test                         # unit tests + one end-to-end; fast
+mix format                       # format all code; fast
+mix googen.discover [substr]     # list Google APIs from the Discovery service
+mix googen.fetch [Name ...]      # cache discovery docs to specifications/gdd/
+mix googen.generate [Name ...]   # fetch (if needed), generate, and format clients
+```
+
+No argument → all APIs in `config/apis.json` (currently Storage, Vision,
+DocumentAI). After changing a template or the generator, regenerate and confirm
+the output still compiles cleanly:
+
+```sh
+mix googen.generate Storage
+cd clients/gcp_storage && mix compile --force --warnings-as-errors
+```
+
+## The pipeline — where to make a change
+
+```
+discovery JSON → Jason.decode(keys: :atoms) → Model/Api/Endpoint/Type structs
+              → EEx templates → clients/<package>/
+```
+
+Orchestrated in `lib/googen/generator.ex`. To find the right file:
+
+| Change                                              | File                                                              |
+| --------------------------------------------------- | ----------------------------------------------------------------- |
+| JSON-schema → Elixir type + decode strategy         | `lib/googen/generator/type.ex`                                    |
+| model collection, inline-object naming, `is_array`  | `generator/model.ex`, `generator/property.ex`                     |
+| endpoint/param derivation, upload variants          | `generator/endpoint.ex`, `generator/parameter.ex`                 |
+| module/package naming (`Gcp.<Name>`)                | `api_config.ex`, `generator/resource_context.ex`                  |
+| the exact strings emitted into generated code       | `generator/renderer.ex` + `templates/client/*.eex`                |
+| generated runtime (Req glue, decode, encode, error) | `templates/client/{request,response,decode,error,encoder}.ex.eex` |
+
+## Conventions
+
+**Elixir style (whole repo):**
+
+- One `alias` per line. No `alias Foo.{A, B}` destructuring, and no cryptic
+  `as:` shortenings — spell out the module (`ResourceContext.foo`, not `Ctx.foo`).
+- In test files, put `defp` helpers at the **bottom**, below the tests.
+
+**Generated-code design (invariants to preserve):**
+
+- Struct fields are **snake_case**; the exact JSON wire name is baked in per
+  field (`satisfies_pzs` ↔ `satisfiesPZS`). Never use a runtime camel/snake
+  heuristic — it's lossy on all-caps runs.
+- Models are plain `defstruct` + a macro-free `decode/1`. No per-model protocols,
+  no metaprogramming base module.
+- Encoding is one `defimpl Jason.Encoder, for: [all models]` per client that
+  drops nil fields and maps snake keys → wire names via each model's `__wire__/0`.
+- Each client vendors its runtime (`Request`/`Response`/`Decode`/`Error`/`Encoder`)
+  namespaced under its own root — no shared dependency.
+- Public API is flat and stateless:
+  `Gcp.Storage.Objects.get(bucket, object, token: tok, fields: "...")`. Required
+  params are positional; everything else (query params, `:body`, `:token`, `:req`)
+  rides in the trailing `opts`. Returns `{:ok, decoded}` or
+  `{:error, %Error{} | Exception.t()}`.
+
+## Gotchas
+
+- **Templates compile into `Renderer` at build time** via
+  `EEx.function_from_file` (registered as `@external_resource`), so editing a
+  `.eex` recompiles `Renderer` on the next `mix` run — no manual step.
+- **Naming:** the `config/apis.json` `name` is used verbatim as the module root
+  (`Gcp.<Name>`) and, snake-cased, as the package (`gcp_<name>`). `DocumentAI` →
+  `Gcp.DocumentAI` / `gcp_document_ai`; don't let `Macro.camelize` mangle it to
+  `DocumentAi`. Package identity is the name, not the version — for two versions
+  of one API, give them distinct names.
+- **The end-to-end test (`test/googen/generator_test.exs`) generates a fixture
+  client and compiles it into the VM at runtime.** Hence `consolidate_protocols:
+false` in `:test` (so the generated `Jason.Encoder` impls dispatch), and it
+  references generated modules dynamically — no compile-time `%Module{}` literals,
+  since those modules don't exist when the test file is compiled.
+- **Req is 0.6.2 (the current version).** `Req.merge/2` merges `:headers`
+  string-safely but routes `:params` through `Keyword.merge/2` (atom keys only),
+  so generated string-key query params are merged by hand in `Request.run`/`upload`
+  rather than handed to `Req.merge`.
+- **Media upload** is a hand-built `multipart/related` body — Req only speaks
+  `multipart/form-data`. Uploads require a `Content-Length`, so `data` must be
+  iodata or a `File.Stream` (size-less streams raise). `alt=media` downloads set
+  `decode_body: false` and return raw bytes.
+
+## Adding an API
+
+Add an entry to `config/apis.json` (`mix googen.discover <term>` finds the URL),
+then `mix googen.generate <Name>`.
