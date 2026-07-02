@@ -69,12 +69,12 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
-      *   `kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
-      *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
       *   `destination_predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to the destination object.
       *   `drop_context_groups` (*type:* `list(String.t())`) - Specifies which groups of Object Contexts from the source object(s) should be dropped from the destination object.
+      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
+      *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
+      *   `kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `body` (*type:* `Googly.CloudStorage.Model.ComposeRequest.t()`) - 
 
   ## Returns
@@ -102,12 +102,12 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        if_generation_match: {:query, "ifGenerationMatch"},
-        kms_key_name: {:query, "kmsKeyName"},
-        user_project: {:query, "userProject"},
-        if_metageneration_match: {:query, "ifMetagenerationMatch"},
         destination_predefined_acl: {:query, "destinationPredefinedAcl"},
         drop_context_groups: {:query, "dropContextGroups"},
+        if_generation_match: {:query, "ifGenerationMatch"},
+        if_metageneration_match: {:query, "ifMetagenerationMatch"},
+        kms_key_name: {:query, "kmsKeyName"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.Object,
@@ -133,19 +133,19 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
-      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
       *   `destination_kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `destination_predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to the destination object.
+      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current metageneration does not match the given value.
-      *   `if_source_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration matches the given value.
-      *   `if_source_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration does not match the given value.
-      *   `destination_predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to the destination object.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_source_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current generation matches the given value.
       *   `if_source_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current generation does not match the given value.
+      *   `if_source_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration matches the given value.
+      *   `if_source_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration does not match the given value.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
       *   `source_generation` (*type:* `String.t()`) - If present, selects a specific revision of the source object (as opposed to the latest version, the default).
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `body` (*type:* `Googly.CloudStorage.Model.Object.t()`) - 
 
   ## Returns
@@ -176,19 +176,19 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
-        if_generation_match: {:query, "ifGenerationMatch"},
         destination_kms_key_name: {:query, "destinationKmsKeyName"},
-        user_project: {:query, "userProject"},
+        destination_predefined_acl: {:query, "destinationPredefinedAcl"},
+        if_generation_match: {:query, "ifGenerationMatch"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
-        if_source_metageneration_match: {:query, "ifSourceMetagenerationMatch"},
-        if_source_metageneration_not_match: {:query, "ifSourceMetagenerationNotMatch"},
-        destination_predefined_acl: {:query, "destinationPredefinedAcl"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_source_generation_match: {:query, "ifSourceGenerationMatch"},
         if_source_generation_not_match: {:query, "ifSourceGenerationNotMatch"},
+        if_source_metageneration_match: {:query, "ifSourceMetagenerationMatch"},
+        if_source_metageneration_not_match: {:query, "ifSourceMetagenerationNotMatch"},
+        projection: {:query, "projection"},
         source_generation: {:query, "sourceGeneration"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.Object,
@@ -214,10 +214,10 @@ defmodule Googly.CloudStorage.Objects do
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
       *   `generation` (*type:* `String.t()`) - If present, permanently deletes a specific revision of this object (as opposed to the latest version, the default).
       *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration does not match the given value.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -245,10 +245,10 @@ defmodule Googly.CloudStorage.Objects do
         user_ip: {:query, "userIp"},
         generation: {:query, "generation"},
         if_generation_match: {:query, "ifGenerationMatch"},
-        user_project: {:query, "userProject"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"}
+        user_project: {:query, "userProject"}
       },
       decode: nil,
       opts: opts
@@ -271,15 +271,15 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
       *   `generation` (*type:* `String.t()`) - If present, selects a specific revision of this object (as opposed to the latest version, the default).
       *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
-      *   `restore_token` (*type:* `String.t()`) - Restore token used to differentiate soft-deleted objects with the same name and generation. Only applicable for hierarchical namespace buckets and if softDeleted is set to true. This parameter is optional, and is only required in the rare case when there are multiple soft-deleted objects with the same name and generation.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration does not match the given value.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
+      *   `restore_token` (*type:* `String.t()`) - Restore token used to differentiate soft-deleted objects with the same name and generation. Only applicable for hierarchical namespace buckets and if softDeleted is set to true. This parameter is optional, and is only required in the rare case when there are multiple soft-deleted objects with the same name and generation.
       *   `soft_deleted` (*type:* `boolean()`) - If true, only soft-deleted object versions will be listed. The default is false. For more information, see [Soft Delete](https://cloud.google.com/storage/docs/soft-delete).
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -306,15 +306,15 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
         generation: {:query, "generation"},
         if_generation_match: {:query, "ifGenerationMatch"},
-        restore_token: {:query, "restoreToken"},
-        user_project: {:query, "userProject"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
+        projection: {:query, "projection"},
+        restore_token: {:query, "restoreToken"},
         soft_deleted: {:query, "softDeleted"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"}
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Object,
       opts: opts
@@ -388,16 +388,16 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `name` (*type:* `String.t()`) - Name of the object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
-      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
       *   `content_encoding` (*type:* `String.t()`) - If set, sets the contentEncoding property of the final object to this value. Setting this parameter is equivalent to setting the contentEncoding metadata property. This can be useful when uploading an object with uploadType=media to indicate the encoding of the content being uploaded.
-      *   `kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration does not match the given value.
+      *   `kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
+      *   `name` (*type:* `String.t()`) - Name of the object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).
       *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this object.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `body` (*type:* `Googly.CloudStorage.Model.Object.t()`) - 
 
   ## Returns
@@ -422,16 +422,16 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        name: {:query, "name"},
-        projection: {:query, "projection"},
-        if_generation_match: {:query, "ifGenerationMatch"},
         content_encoding: {:query, "contentEncoding"},
-        kms_key_name: {:query, "kmsKeyName"},
-        user_project: {:query, "userProject"},
+        if_generation_match: {:query, "ifGenerationMatch"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
+        kms_key_name: {:query, "kmsKeyName"},
+        name: {:query, "name"},
         predefined_acl: {:query, "predefinedAcl"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"},
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.Object,
@@ -455,16 +455,16 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `name` (*type:* `String.t()`) - Name of the object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
-      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
       *   `content_encoding` (*type:* `String.t()`) - If set, sets the contentEncoding property of the final object to this value. Setting this parameter is equivalent to setting the contentEncoding metadata property. This can be useful when uploading an object with uploadType=media to indicate the encoding of the content being uploaded.
-      *   `kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration does not match the given value.
+      *   `kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
+      *   `name` (*type:* `String.t()`) - Name of the object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).
       *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this object.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -490,16 +490,16 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        name: {:query, "name"},
-        projection: {:query, "projection"},
-        if_generation_match: {:query, "ifGenerationMatch"},
         content_encoding: {:query, "contentEncoding"},
-        kms_key_name: {:query, "kmsKeyName"},
-        user_project: {:query, "userProject"},
+        if_generation_match: {:query, "ifGenerationMatch"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
+        kms_key_name: {:query, "kmsKeyName"},
+        name: {:query, "name"},
         predefined_acl: {:query, "predefinedAcl"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"}
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Object,
       opts: opts
@@ -523,16 +523,16 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `name` (*type:* `String.t()`) - Name of the object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
-      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
       *   `content_encoding` (*type:* `String.t()`) - If set, sets the contentEncoding property of the final object to this value. Setting this parameter is equivalent to setting the contentEncoding metadata property. This can be useful when uploading an object with uploadType=media to indicate the encoding of the content being uploaded.
-      *   `kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration does not match the given value.
+      *   `kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
+      *   `name` (*type:* `String.t()`) - Name of the object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).
       *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this object.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -563,16 +563,16 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        name: {:query, "name"},
-        projection: {:query, "projection"},
-        if_generation_match: {:query, "ifGenerationMatch"},
         content_encoding: {:query, "contentEncoding"},
-        kms_key_name: {:query, "kmsKeyName"},
-        user_project: {:query, "userProject"},
+        if_generation_match: {:query, "ifGenerationMatch"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
+        kms_key_name: {:query, "kmsKeyName"},
+        name: {:query, "name"},
         predefined_acl: {:query, "predefinedAcl"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"}
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Object,
       opts: opts
@@ -594,20 +594,20 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `filter` (*type:* `String.t()`) - Filter the returned objects. Currently only supported for the contexts field. If delimiter is set, the returned prefixes are exempt from this filter.
-      *   `prefix` (*type:* `String.t()`) - Filter results to objects whose names begin with this prefix.
       *   `delimiter` (*type:* `String.t()`) - Returns results in a directory-like mode. items will contain only objects whose names, aside from the prefix, do not contain delimiter. Objects whose names, aside from the prefix, contain delimiter will have their name, truncated after the delimiter, returned in prefixes. Duplicate prefixes are omitted.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
-      *   `versions` (*type:* `boolean()`) - If true, lists all versions of an object as distinct results. The default is false. For more information, see [Object Versioning](https://cloud.google.com/storage/docs/object-versioning).
-      *   `page_token` (*type:* `String.t()`) - A previously-returned page token representing part of the larger set of results to view.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
-      *   `soft_deleted` (*type:* `boolean()`) - If true, only soft-deleted object versions will be listed. The default is false. For more information, see [Soft Delete](https://cloud.google.com/storage/docs/soft-delete).
-      *   `max_results` (*type:* `integer()`) - Maximum number of items plus prefixes to return in a single page of responses. As duplicate prefixes are omitted, fewer total results may be returned than requested. The service will use this parameter or 1,000 items, whichever is smaller.
       *   `end_offset` (*type:* `String.t()`) - Filter results to objects whose names are lexicographically before endOffset. If startOffset is also set, the objects listed will have names between startOffset (inclusive) and endOffset (exclusive).
-      *   `start_offset` (*type:* `String.t()`) - Filter results to objects whose names are lexicographically equal to or after startOffset. If endOffset is also set, the objects listed will have names between startOffset (inclusive) and endOffset (exclusive).
+      *   `filter` (*type:* `String.t()`) - Filter the returned objects. Currently only supported for the contexts field. If delimiter is set, the returned prefixes are exempt from this filter.
+      *   `include_folders_as_prefixes` (*type:* `boolean()`) - Only applicable if delimiter is set to '/'. If true, will also include folders and managed folders (besides objects) in the returned prefixes.
       *   `include_trailing_delimiter` (*type:* `boolean()`) - If true, objects that end in exactly one instance of delimiter will have their metadata included in items in addition to prefixes.
       *   `match_glob` (*type:* `String.t()`) - Filter results to objects and prefixes that match this glob pattern.
-      *   `include_folders_as_prefixes` (*type:* `boolean()`) - Only applicable if delimiter is set to '/'. If true, will also include folders and managed folders (besides objects) in the returned prefixes.
+      *   `max_results` (*type:* `integer()`) - Maximum number of items plus prefixes to return in a single page of responses. As duplicate prefixes are omitted, fewer total results may be returned than requested. The service will use this parameter or 1,000 items, whichever is smaller.
+      *   `page_token` (*type:* `String.t()`) - A previously-returned page token representing part of the larger set of results to view.
+      *   `prefix` (*type:* `String.t()`) - Filter results to objects whose names begin with this prefix.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
+      *   `soft_deleted` (*type:* `boolean()`) - If true, only soft-deleted object versions will be listed. The default is false. For more information, see [Soft Delete](https://cloud.google.com/storage/docs/soft-delete).
+      *   `start_offset` (*type:* `String.t()`) - Filter results to objects whose names are lexicographically equal to or after startOffset. If endOffset is also set, the objects listed will have names between startOffset (inclusive) and endOffset (exclusive).
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `versions` (*type:* `boolean()`) - If true, lists all versions of an object as distinct results. The default is false. For more information, see [Object Versioning](https://cloud.google.com/storage/docs/object-versioning).
 
   ## Returns
 
@@ -631,20 +631,20 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        filter: {:query, "filter"},
-        prefix: {:query, "prefix"},
         delimiter: {:query, "delimiter"},
-        projection: {:query, "projection"},
-        versions: {:query, "versions"},
-        page_token: {:query, "pageToken"},
-        user_project: {:query, "userProject"},
-        soft_deleted: {:query, "softDeleted"},
-        max_results: {:query, "maxResults"},
         end_offset: {:query, "endOffset"},
-        start_offset: {:query, "startOffset"},
+        filter: {:query, "filter"},
+        include_folders_as_prefixes: {:query, "includeFoldersAsPrefixes"},
         include_trailing_delimiter: {:query, "includeTrailingDelimiter"},
         match_glob: {:query, "matchGlob"},
-        include_folders_as_prefixes: {:query, "includeFoldersAsPrefixes"}
+        max_results: {:query, "maxResults"},
+        page_token: {:query, "pageToken"},
+        prefix: {:query, "prefix"},
+        projection: {:query, "projection"},
+        soft_deleted: {:query, "softDeleted"},
+        start_offset: {:query, "startOffset"},
+        user_project: {:query, "userProject"},
+        versions: {:query, "versions"}
       },
       decode: Googly.CloudStorage.Model.Objects,
       opts: opts
@@ -668,16 +668,16 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
       *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object. `ifGenerationMatch` and `ifGenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.`ifGenerationMatch` and `ifGenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current metageneration matches the given value. `ifMetagenerationMatch` and `ifMetagenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current metageneration does not match the given value. `ifMetagenerationMatch` and `ifMetagenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
-      *   `if_source_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration matches the given value. `ifSourceMetagenerationMatch` and `ifSourceMetagenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
-      *   `if_source_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration does not match the given value. `ifSourceMetagenerationMatch` and `ifSourceMetagenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.`ifGenerationMatch` and `ifGenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
       *   `if_source_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current generation matches the given value. `ifSourceGenerationMatch` and `ifSourceGenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
       *   `if_source_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current generation does not match the given value. `ifSourceGenerationMatch` and `ifSourceGenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
+      *   `if_source_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration matches the given value. `ifSourceMetagenerationMatch` and `ifSourceMetagenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
+      *   `if_source_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration does not match the given value. `ifSourceMetagenerationMatch` and `ifSourceMetagenerationNotMatch` conditions are mutually exclusive: it's an error for both of them to be set in the request.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -705,16 +705,16 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
         if_generation_match: {:query, "ifGenerationMatch"},
-        user_project: {:query, "userProject"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
+        if_source_generation_match: {:query, "ifSourceGenerationMatch"},
+        if_source_generation_not_match: {:query, "ifSourceGenerationNotMatch"},
         if_source_metageneration_match: {:query, "ifSourceMetagenerationMatch"},
         if_source_metageneration_not_match: {:query, "ifSourceMetagenerationNotMatch"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"},
-        if_source_generation_match: {:query, "ifSourceGenerationMatch"},
-        if_source_generation_not_match: {:query, "ifSourceGenerationNotMatch"}
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Object,
       opts: opts
@@ -737,15 +737,15 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
       *   `generation` (*type:* `String.t()`) - If present, selects a specific revision of this object (as opposed to the latest version, the default).
       *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request, for Requester Pays buckets.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration does not match the given value.
-      *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this object.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `override_unlocked_retention` (*type:* `boolean()`) - Must be true to remove the retention configuration, reduce its unlocked retention period, or change its mode from unlocked to locked.
+      *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this object.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request, for Requester Pays buckets.
       *   `body` (*type:* `Googly.CloudStorage.Model.Object.t()`) - 
 
   ## Returns
@@ -773,15 +773,15 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
         generation: {:query, "generation"},
         if_generation_match: {:query, "ifGenerationMatch"},
-        user_project: {:query, "userProject"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
-        predefined_acl: {:query, "predefinedAcl"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         override_unlocked_retention: {:query, "overrideUnlockedRetention"},
+        predefined_acl: {:query, "predefinedAcl"},
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.Object,
@@ -806,14 +806,14 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
-      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's one live generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
-      *   `restore_token` (*type:* `String.t()`) - Restore token used to differentiate sof-deleted objects with the same name and generation. Only applicable for hierarchical namespace buckets. This parameter is optional, and is only required in the rare case when there are multiple soft-deleted objects with the same name and generation.
       *   `copy_source_acl` (*type:* `boolean()`) - If true, copies the source object's ACL; otherwise, uses the bucket's default object ACL. The default is false.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's one live generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether none of the object's live generations match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's one live metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether none of the object's live metagenerations match the given value.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether none of the object's live generations match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
+      *   `restore_token` (*type:* `String.t()`) - Restore token used to differentiate sof-deleted objects with the same name and generation. Only applicable for hierarchical namespace buckets. This parameter is optional, and is only required in the rare case when there are multiple soft-deleted objects with the same name and generation.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -840,14 +840,14 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
-        if_generation_match: {:query, "ifGenerationMatch"},
-        restore_token: {:query, "restoreToken"},
         copy_source_acl: {:query, "copySourceAcl"},
-        user_project: {:query, "userProject"},
+        if_generation_match: {:query, "ifGenerationMatch"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"}
+        projection: {:query, "projection"},
+        restore_token: {:query, "restoreToken"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Object,
       opts: opts
@@ -872,22 +872,22 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
-      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
       *   `destination_kms_key_name` (*type:* `String.t()`) - Resource name of the Cloud KMS key, of the form projects/my-project/locations/global/keyRings/my-kr/cryptoKeys/my-key, that will be used to encrypt the object. Overrides the object metadata's kms_key_name value, if any.
-      *   `rewrite_token` (*type:* `String.t()`) - Include this field (from the previous rewrite response) on each rewrite request after the first one, until the rewrite response 'done' flag is true. Calls that provide a rewriteToken can omit all other request fields, but if included those fields must match the values provided in the first rewrite request.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
-      *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current metageneration matches the given value.
-      *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current metageneration does not match the given value.
-      *   `if_source_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration matches the given value.
-      *   `if_source_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration does not match the given value.
       *   `destination_predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to the destination object.
       *   `drop_context_groups` (*type:* `list(String.t())`) - Specifies which groups of Object Contexts from the source object should be dropped from the destination object.
+      *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
       *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
+      *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current metageneration matches the given value.
+      *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the destination object's current metageneration does not match the given value.
       *   `if_source_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current generation matches the given value.
       *   `if_source_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current generation does not match the given value.
-      *   `source_generation` (*type:* `String.t()`) - If present, selects a specific revision of the source object (as opposed to the latest version, the default).
+      *   `if_source_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration matches the given value.
+      *   `if_source_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the source object's current metageneration does not match the given value.
       *   `max_bytes_rewritten_per_call` (*type:* `String.t()`) - The maximum number of bytes that will be rewritten per rewrite request. Most callers shouldn't need to specify this parameter - it is primarily in place to support testing. If specified the value must be an integral multiple of 1 MiB (1048576). Also, this only applies to requests where the source and destination span locations and/or storage classes. Finally, this value must not change across rewrite calls else you'll get an error that the rewriteToken is invalid.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
+      *   `rewrite_token` (*type:* `String.t()`) - Include this field (from the previous rewrite response) on each rewrite request after the first one, until the rewrite response 'done' flag is true. Calls that provide a rewriteToken can omit all other request fields, but if included those fields must match the values provided in the first rewrite request.
+      *   `source_generation` (*type:* `String.t()`) - If present, selects a specific revision of the source object (as opposed to the latest version, the default).
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `body` (*type:* `Googly.CloudStorage.Model.Object.t()`) - 
 
   ## Returns
@@ -918,22 +918,22 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
-        if_generation_match: {:query, "ifGenerationMatch"},
         destination_kms_key_name: {:query, "destinationKmsKeyName"},
-        rewrite_token: {:query, "rewriteToken"},
-        user_project: {:query, "userProject"},
-        if_metageneration_match: {:query, "ifMetagenerationMatch"},
-        if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
-        if_source_metageneration_match: {:query, "ifSourceMetagenerationMatch"},
-        if_source_metageneration_not_match: {:query, "ifSourceMetagenerationNotMatch"},
         destination_predefined_acl: {:query, "destinationPredefinedAcl"},
         drop_context_groups: {:query, "dropContextGroups"},
+        if_generation_match: {:query, "ifGenerationMatch"},
         if_generation_not_match: {:query, "ifGenerationNotMatch"},
+        if_metageneration_match: {:query, "ifMetagenerationMatch"},
+        if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
         if_source_generation_match: {:query, "ifSourceGenerationMatch"},
         if_source_generation_not_match: {:query, "ifSourceGenerationNotMatch"},
-        source_generation: {:query, "sourceGeneration"},
+        if_source_metageneration_match: {:query, "ifSourceMetagenerationMatch"},
+        if_source_metageneration_not_match: {:query, "ifSourceMetagenerationNotMatch"},
         max_bytes_rewritten_per_call: {:query, "maxBytesRewrittenPerCall"},
+        projection: {:query, "projection"},
+        rewrite_token: {:query, "rewriteToken"},
+        source_generation: {:query, "sourceGeneration"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.RewriteResponse,
@@ -1064,15 +1064,15 @@ defmodule Googly.CloudStorage.Objects do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
       *   `generation` (*type:* `String.t()`) - If present, selects a specific revision of this object (as opposed to the latest version, the default).
       *   `if_generation_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation matches the given value. Setting to 0 makes the operation succeed only if there are no live versions of the object.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
+      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current metageneration does not match the given value.
-      *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this object.
-      *   `if_generation_not_match` (*type:* `String.t()`) - Makes the operation conditional on whether the object's current generation does not match the given value. If no live object exists, the precondition fails. Setting to 0 makes the operation succeed only if there is a live version of the object.
       *   `override_unlocked_retention` (*type:* `boolean()`) - Must be true to remove the retention configuration, reduce its unlocked retention period, or change its mode from unlocked to locked.
+      *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this object.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `body` (*type:* `Googly.CloudStorage.Model.Object.t()`) - 
 
   ## Returns
@@ -1100,15 +1100,15 @@ defmodule Googly.CloudStorage.Objects do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
         generation: {:query, "generation"},
         if_generation_match: {:query, "ifGenerationMatch"},
-        user_project: {:query, "userProject"},
+        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
-        predefined_acl: {:query, "predefinedAcl"},
-        if_generation_not_match: {:query, "ifGenerationNotMatch"},
         override_unlocked_retention: {:query, "overrideUnlockedRetention"},
+        predefined_acl: {:query, "predefinedAcl"},
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.Object,

@@ -12,7 +12,7 @@ defmodule Googly.CloudVision.MixProject do
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      description: "Cloud Vision API client library.",
+      description: "Google Cloud Vision API client library.",
       package: package(),
       docs: [main: "readme", extras: ["README.md"]],
       source_url: "https://github.com/Rabbet/googly/tree/main/clients/googly_cloud_vision"

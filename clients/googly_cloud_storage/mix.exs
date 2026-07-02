@@ -13,7 +13,7 @@ defmodule Googly.CloudStorage.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description:
-        "Cloud Storage JSON API client library. Stores and retrieves potentially large, immutable data objects.",
+        "Google Cloud Storage JSON API client library. Stores and retrieves potentially large, immutable data objects.",
       package: package(),
       docs: [main: "readme", extras: ["README.md"]],
       source_url: "https://github.com/Rabbet/googly/tree/main/clients/googly_cloud_storage"

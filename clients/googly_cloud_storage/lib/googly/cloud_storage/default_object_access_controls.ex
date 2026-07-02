@@ -169,9 +169,9 @@ defmodule Googly.CloudStorage.DefaultObjectAccessControls do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `if_metageneration_match` (*type:* `String.t()`) - If present, only return default ACL listing if the bucket's current metageneration matches this value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - If present, only return default ACL listing if the bucket's current metageneration does not match the given value.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -195,9 +195,9 @@ defmodule Googly.CloudStorage.DefaultObjectAccessControls do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        user_project: {:query, "userProject"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
-        if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"}
+        if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.ObjectAccessControls,
       opts: opts

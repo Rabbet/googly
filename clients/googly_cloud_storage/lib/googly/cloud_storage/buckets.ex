@@ -22,9 +22,9 @@ defmodule Googly.CloudStorage.Buckets do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `if_metageneration_match` (*type:* `String.t()`) - If set, only deletes the bucket if its metageneration matches this value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - If set, only deletes the bucket if its metageneration does not match this value.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -47,9 +47,9 @@ defmodule Googly.CloudStorage.Buckets do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        user_project: {:query, "userProject"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
-        if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"}
+        if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
+        user_project: {:query, "userProject"}
       },
       decode: nil,
       opts: opts
@@ -71,12 +71,12 @@ defmodule Googly.CloudStorage.Buckets do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
       *   `generation` (*type:* `String.t()`) - If present, specifies the generation of the bucket. This is required if softDeleted is true.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the return of the bucket metadata conditional on whether the bucket's current metageneration does not match the given value.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
       *   `soft_deleted` (*type:* `boolean()`) - If true, return the soft-deleted version of this bucket. The default is false. For more information, see [Soft Delete](https://cloud.google.com/storage/docs/soft-delete).
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -100,12 +100,12 @@ defmodule Googly.CloudStorage.Buckets do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
         generation: {:query, "generation"},
-        user_project: {:query, "userProject"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
-        soft_deleted: {:query, "softDeleted"}
+        projection: {:query, "projection"},
+        soft_deleted: {:query, "softDeleted"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Bucket,
       opts: opts
@@ -127,8 +127,8 @@ defmodule Googly.CloudStorage.Buckets do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `options_requested_policy_version` (*type:* `integer()`) - The IAM policy format version to be returned. If the optionsRequestedPolicyVersion is for an older version that doesn't support part of the requested IAM policy, the request fails.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -152,8 +152,8 @@ defmodule Googly.CloudStorage.Buckets do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        user_project: {:query, "userProject"},
-        options_requested_policy_version: {:query, "optionsRequestedPolicyVersion"}
+        options_requested_policy_version: {:query, "optionsRequestedPolicyVersion"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Policy,
       opts: opts
@@ -221,11 +221,11 @@ defmodule Googly.CloudStorage.Buckets do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the bucket resource specifies acl or defaultObjectAcl properties, when it defaults to full.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request.
+      *   `enable_object_retention` (*type:* `boolean()`) - When set to true, object retention is enabled for this bucket.
       *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this bucket.
       *   `predefined_default_object_acl` (*type:* `String.t()`) - Apply a predefined set of default object access controls to this bucket.
-      *   `enable_object_retention` (*type:* `boolean()`) - When set to true, object retention is enabled for this bucket.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl, unless the bucket resource specifies acl or defaultObjectAcl properties, when it defaults to full.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request.
       *   `body` (*type:* `Googly.CloudStorage.Model.Bucket.t()`) - 
 
   ## Returns
@@ -250,11 +250,11 @@ defmodule Googly.CloudStorage.Buckets do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
-        user_project: {:query, "userProject"},
+        enable_object_retention: {:query, "enableObjectRetention"},
         predefined_acl: {:query, "predefinedAcl"},
         predefined_default_object_acl: {:query, "predefinedDefaultObjectAcl"},
-        enable_object_retention: {:query, "enableObjectRetention"},
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.Bucket,
@@ -277,13 +277,13 @@ defmodule Googly.CloudStorage.Buckets do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
+      *   `max_results` (*type:* `integer()`) - Maximum number of buckets to return in a single response. The service will use this parameter or 1,000 items, whichever is smaller.
+      *   `page_token` (*type:* `String.t()`) - A previously-returned page token representing part of the larger set of results to view.
       *   `prefix` (*type:* `String.t()`) - Filter results to buckets whose names begin with this prefix.
       *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to noAcl.
-      *   `page_token` (*type:* `String.t()`) - A previously-returned page token representing part of the larger set of results to view.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request.
-      *   `soft_deleted` (*type:* `boolean()`) - If true, only soft-deleted bucket versions will be returned. The default is false. For more information, see [Soft Delete](https://cloud.google.com/storage/docs/soft-delete).
-      *   `max_results` (*type:* `integer()`) - Maximum number of buckets to return in a single response. The service will use this parameter or 1,000 items, whichever is smaller.
       *   `return_partial_success` (*type:* `boolean()`) - If true, return a list of bucket resource names for buckets that are in unreachable locations.
+      *   `soft_deleted` (*type:* `boolean()`) - If true, only soft-deleted bucket versions will be returned. The default is false. For more information, see [Soft Delete](https://cloud.google.com/storage/docs/soft-delete).
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request.
 
   ## Returns
 
@@ -307,13 +307,13 @@ defmodule Googly.CloudStorage.Buckets do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
+        max_results: {:query, "maxResults"},
+        page_token: {:query, "pageToken"},
         prefix: {:query, "prefix"},
         projection: {:query, "projection"},
-        page_token: {:query, "pageToken"},
-        user_project: {:query, "userProject"},
+        return_partial_success: {:query, "returnPartialSuccess"},
         soft_deleted: {:query, "softDeleted"},
-        max_results: {:query, "maxResults"},
-        return_partial_success: {:query, "returnPartialSuccess"}
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Buckets,
       opts: opts
@@ -382,12 +382,12 @@ defmodule Googly.CloudStorage.Buckets do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the return of the bucket metadata conditional on whether the bucket's current metageneration does not match the given value.
       *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this bucket.
       *   `predefined_default_object_acl` (*type:* `String.t()`) - Apply a predefined set of default object access controls to this bucket.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `body` (*type:* `Googly.CloudStorage.Model.Bucket.t()`) - 
 
   ## Returns
@@ -412,12 +412,12 @@ defmodule Googly.CloudStorage.Buckets do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
-        user_project: {:query, "userProject"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
         predefined_acl: {:query, "predefinedAcl"},
         predefined_default_object_acl: {:query, "predefinedDefaultObjectAcl"},
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.Bucket,
@@ -630,12 +630,12 @@ defmodule Googly.CloudStorage.Buckets do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `if_metageneration_match` (*type:* `String.t()`) - Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - Makes the return of the bucket metadata conditional on whether the bucket's current metageneration does not match the given value.
       *   `predefined_acl` (*type:* `String.t()`) - Apply a predefined set of access controls to this bucket.
       *   `predefined_default_object_acl` (*type:* `String.t()`) - Apply a predefined set of default object access controls to this bucket.
+      *   `projection` (*type:* `String.t()`) - Set of properties to return. Defaults to full.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `body` (*type:* `Googly.CloudStorage.Model.Bucket.t()`) - 
 
   ## Returns
@@ -660,12 +660,12 @@ defmodule Googly.CloudStorage.Buckets do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        projection: {:query, "projection"},
-        user_project: {:query, "userProject"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
         if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
         predefined_acl: {:query, "predefinedAcl"},
         predefined_default_object_acl: {:query, "predefinedDefaultObjectAcl"},
+        projection: {:query, "projection"},
+        user_project: {:query, "userProject"},
         body: {:body, nil}
       },
       decode: Googly.CloudStorage.Model.Bucket,

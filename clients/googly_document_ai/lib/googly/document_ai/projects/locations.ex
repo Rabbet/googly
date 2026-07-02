@@ -126,10 +126,10 @@ defmodule Googly.DocumentAI.Projects.Locations do
       *   `upload_protocol` (*type:* `String.t()`) - Upload protocol for media (e.g. "raw", "multipart").
       *   `upload_type` (*type:* `String.t()`) - Legacy upload protocol for media (e.g. "media", "multipart").
       *   `xgafv` (*type:* `String.t()`) - V1 error format.
+      *   `extra_location_types` (*type:* `list(String.t())`) - Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage.
       *   `filter` (*type:* `String.t()`) - A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160).
       *   `page_size` (*type:* `integer()`) - The maximum number of results to return. If not set, the service selects a default.
       *   `page_token` (*type:* `String.t()`) - A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page.
-      *   `extra_location_types` (*type:* `list(String.t())`) - Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage.
 
   ## Returns
 
@@ -157,10 +157,10 @@ defmodule Googly.DocumentAI.Projects.Locations do
         upload_protocol: {:query, "upload_protocol"},
         upload_type: {:query, "uploadType"},
         xgafv: {:query, "$.xgafv"},
+        extra_location_types: {:query, "extraLocationTypes"},
         filter: {:query, "filter"},
         page_size: {:query, "pageSize"},
-        page_token: {:query, "pageToken"},
-        extra_location_types: {:query, "extraLocationTypes"}
+        page_token: {:query, "pageToken"}
       },
       decode: Googly.DocumentAI.Model.GoogleCloudLocationListLocationsResponse,
       opts: opts

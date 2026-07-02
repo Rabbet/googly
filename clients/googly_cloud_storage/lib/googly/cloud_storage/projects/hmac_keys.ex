@@ -168,11 +168,11 @@ defmodule Googly.CloudStorage.Projects.HmacKeys do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `service_account_email` (*type:* `String.t()`) - If present, only keys for the given service account are returned.
-      *   `page_token` (*type:* `String.t()`) - A previously-returned page token representing part of the larger set of results to view.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request.
       *   `max_results` (*type:* `integer()`) - Maximum number of items to return in a single page of responses. The service uses this parameter or 250 items, whichever is smaller. The max number of items per page will also be limited by the number of distinct service accounts in the response. If the number of service accounts in a single response is too high, the page will truncated and a next page token will be returned.
+      *   `page_token` (*type:* `String.t()`) - A previously-returned page token representing part of the larger set of results to view.
+      *   `service_account_email` (*type:* `String.t()`) - If present, only keys for the given service account are returned.
       *   `show_deleted_keys` (*type:* `boolean()`) - Whether or not to show keys in the DELETED state.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request.
 
   ## Returns
 
@@ -196,11 +196,11 @@ defmodule Googly.CloudStorage.Projects.HmacKeys do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        service_account_email: {:query, "serviceAccountEmail"},
-        page_token: {:query, "pageToken"},
-        user_project: {:query, "userProject"},
         max_results: {:query, "maxResults"},
-        show_deleted_keys: {:query, "showDeletedKeys"}
+        page_token: {:query, "pageToken"},
+        service_account_email: {:query, "serviceAccountEmail"},
+        show_deleted_keys: {:query, "showDeletedKeys"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.HmacKeysMetadata,
       opts: opts

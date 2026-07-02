@@ -12,7 +12,7 @@ defmodule Googly.DocumentAI.MixProject do
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      description: "Cloud Document AI API client library.",
+      description: "Google Cloud Document AI API client library.",
       package: package(),
       docs: [main: "readme", extras: ["README.md"]],
       source_url: "https://github.com/Rabbet/googly/tree/main/clients/googly_document_ai"

@@ -23,9 +23,9 @@ defmodule Googly.CloudStorage.ManagedFolders do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
+      *   `allow_non_empty` (*type:* `boolean()`) - Allows the deletion of a managed folder even if it is not empty. A managed folder is empty if there are no objects or managed folders that it applies to. Callers must have storage.managedFolders.setIamPolicy permission.
       *   `if_metageneration_match` (*type:* `String.t()`) - If set, only deletes the managed folder if its metageneration matches this value.
       *   `if_metageneration_not_match` (*type:* `String.t()`) - If set, only deletes the managed folder if its metageneration does not match this value.
-      *   `allow_non_empty` (*type:* `boolean()`) - Allows the deletion of a managed folder even if it is not empty. A managed folder is empty if there are no objects or managed folders that it applies to. Callers must have storage.managedFolders.setIamPolicy permission.
 
   ## Returns
 
@@ -51,9 +51,9 @@ defmodule Googly.CloudStorage.ManagedFolders do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
+        allow_non_empty: {:query, "allowNonEmpty"},
         if_metageneration_match: {:query, "ifMetagenerationMatch"},
-        if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"},
-        allow_non_empty: {:query, "allowNonEmpty"}
+        if_metageneration_not_match: {:query, "ifMetagenerationNotMatch"}
       },
       decode: nil,
       opts: opts
@@ -128,8 +128,8 @@ defmodule Googly.CloudStorage.ManagedFolders do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
       *   `options_requested_policy_version` (*type:* `integer()`) - The IAM policy format version to be returned. If the optionsRequestedPolicyVersion is for an older version that doesn't support part of the requested IAM policy, the request fails.
+      *   `user_project` (*type:* `String.t()`) - The project to be billed for this request. Required for Requester Pays buckets.
 
   ## Returns
 
@@ -156,8 +156,8 @@ defmodule Googly.CloudStorage.ManagedFolders do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        user_project: {:query, "userProject"},
-        options_requested_policy_version: {:query, "optionsRequestedPolicyVersion"}
+        options_requested_policy_version: {:query, "optionsRequestedPolicyVersion"},
+        user_project: {:query, "userProject"}
       },
       decode: Googly.CloudStorage.Model.Policy,
       opts: opts
@@ -225,9 +225,9 @@ defmodule Googly.CloudStorage.ManagedFolders do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `prefix` (*type:* `String.t()`) - The managed folder name/path prefix to filter the output list of results.
       *   `page_size` (*type:* `integer()`) - Maximum number of items to return in a single page of responses.
       *   `page_token` (*type:* `String.t()`) - A previously-returned page token representing part of the larger set of results to view.
+      *   `prefix` (*type:* `String.t()`) - The managed folder name/path prefix to filter the output list of results.
 
   ## Returns
 
@@ -251,9 +251,9 @@ defmodule Googly.CloudStorage.ManagedFolders do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        prefix: {:query, "prefix"},
         page_size: {:query, "pageSize"},
-        page_token: {:query, "pageToken"}
+        page_token: {:query, "pageToken"},
+        prefix: {:query, "prefix"}
       },
       decode: Googly.CloudStorage.Model.ManagedFolders,
       opts: opts

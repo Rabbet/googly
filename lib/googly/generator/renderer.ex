@@ -182,7 +182,13 @@ defmodule Googly.Generator.Renderer do
     end
   end
 
-  defp title(token), do: token.rest[:title] || token.module_root
+  # Google's discovery titles omit "Google" ("Cloud Storage JSON API"), which
+  # hurts Hex search — prefix it (unless already present). Feeds the package
+  # description and the README.
+  defp title(token) do
+    raw = token.rest[:title] || token.module_root
+    if String.contains?(raw, "Google"), do: raw, else: "Google " <> raw
+  end
 
   defp docs_link(token), do: token.rest[:documentationLink] || "https://cloud.google.com/"
 

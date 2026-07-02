@@ -39,7 +39,9 @@ defmodule Googly.Generator.Parameter do
     required = Enum.map(order, &required_by_name[to_string(&1)]) |> Enum.reject(&is_nil/1)
 
     optional =
-      Enum.map(optional, fn {name, schema} -> build(to_string(name), schema, context, path) end)
+      optional
+      |> Enum.map(fn {name, schema} -> build(to_string(name), schema, context, path) end)
+      |> Enum.sort_by(& &1.name)
 
     optional = if request, do: optional ++ [body_param(request, context)], else: optional
 

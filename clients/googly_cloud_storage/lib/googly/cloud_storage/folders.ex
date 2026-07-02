@@ -225,11 +225,11 @@ defmodule Googly.CloudStorage.Folders do
       *   `quota_user` (*type:* `String.t()`) - An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       *   `upload_type` (*type:* `String.t()`) - Upload protocol for media (e.g. "media", "multipart", "resumable").
       *   `user_ip` (*type:* `String.t()`) - Deprecated. Please use quotaUser instead.
-      *   `prefix` (*type:* `String.t()`) - Filter results to folders whose paths begin with this prefix. If set, the value must either be an empty string or end with a '/'.
       *   `delimiter` (*type:* `String.t()`) - Returns results in a directory-like mode. The only supported value is '/'. If set, items will only contain folders that either exactly match the prefix, or are one level below the prefix.
+      *   `end_offset` (*type:* `String.t()`) - Filter results to folders whose names are lexicographically before endOffset. If startOffset is also set, the folders listed will have names between startOffset (inclusive) and endOffset (exclusive).
       *   `page_size` (*type:* `integer()`) - Maximum number of items to return in a single page of responses.
       *   `page_token` (*type:* `String.t()`) - A previously-returned page token representing part of the larger set of results to view.
-      *   `end_offset` (*type:* `String.t()`) - Filter results to folders whose names are lexicographically before endOffset. If startOffset is also set, the folders listed will have names between startOffset (inclusive) and endOffset (exclusive).
+      *   `prefix` (*type:* `String.t()`) - Filter results to folders whose paths begin with this prefix. If set, the value must either be an empty string or end with a '/'.
       *   `start_offset` (*type:* `String.t()`) - Filter results to folders whose names are lexicographically equal to or after startOffset. If endOffset is also set, the folders listed will have names between startOffset (inclusive) and endOffset (exclusive).
 
   ## Returns
@@ -254,11 +254,11 @@ defmodule Googly.CloudStorage.Folders do
         quota_user: {:query, "quotaUser"},
         upload_type: {:query, "uploadType"},
         user_ip: {:query, "userIp"},
-        prefix: {:query, "prefix"},
         delimiter: {:query, "delimiter"},
+        end_offset: {:query, "endOffset"},
         page_size: {:query, "pageSize"},
         page_token: {:query, "pageToken"},
-        end_offset: {:query, "endOffset"},
+        prefix: {:query, "prefix"},
         start_offset: {:query, "startOffset"}
       },
       decode: Googly.CloudStorage.Model.Folders,
