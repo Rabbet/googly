@@ -39,7 +39,7 @@ defmodule Googly.CloudStorage.ManagedFolders do
       url: "/storage/v1/b/{bucket}/managedFolders/{managedFolder}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "managedFolder" => URI.encode(managed_folder, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "managedFolder" => URI.encode(managed_folder, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -92,7 +92,7 @@ defmodule Googly.CloudStorage.ManagedFolders do
       url: "/storage/v1/b/{bucket}/managedFolders/{managedFolder}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "managedFolder" => URI.encode(managed_folder, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "managedFolder" => URI.encode(managed_folder, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{

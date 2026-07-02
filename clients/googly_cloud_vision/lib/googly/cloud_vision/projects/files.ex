@@ -38,7 +38,7 @@ defmodule Googly.CloudVision.Projects.Files do
     Request.run(
       method: :post,
       url: "/v1/{+parent}/files:annotate",
-      path_params: %{"parent" => URI.encode(parent, &URI.char_unreserved?/1)},
+      path_params: %{"parent" => URI.encode(parent, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -90,7 +90,7 @@ defmodule Googly.CloudVision.Projects.Files do
     Request.run(
       method: :post,
       url: "/v1/{+parent}/files:asyncBatchAnnotate",
-      path_params: %{"parent" => URI.encode(parent, &URI.char_unreserved?/1)},
+      path_params: %{"parent" => URI.encode(parent, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},

@@ -84,7 +84,7 @@ defmodule Googly.CloudStorage.Projects.HmacKeys do
       url: "/storage/v1/projects/{projectId}/hmacKeys/{accessId}",
       path_params: %{
         "projectId" => URI.encode(project_id, &URI.char_unreserved?/1),
-        "accessId" => URI.encode(access_id, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "accessId" => URI.encode(access_id, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -134,7 +134,7 @@ defmodule Googly.CloudStorage.Projects.HmacKeys do
       url: "/storage/v1/projects/{projectId}/hmacKeys/{accessId}",
       path_params: %{
         "projectId" => URI.encode(project_id, &URI.char_unreserved?/1),
-        "accessId" => URI.encode(access_id, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "accessId" => URI.encode(access_id, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -239,7 +239,7 @@ defmodule Googly.CloudStorage.Projects.HmacKeys do
       url: "/storage/v1/projects/{projectId}/hmacKeys/{accessId}",
       path_params: %{
         "projectId" => URI.encode(project_id, &URI.char_unreserved?/1),
-        "accessId" => URI.encode(access_id, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "accessId" => URI.encode(access_id, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{

@@ -37,7 +37,7 @@ defmodule Googly.CloudStorage.Notifications do
       url: "/storage/v1/b/{bucket}/notificationConfigs/{notification}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "notification" => URI.encode(notification, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "notification" => URI.encode(notification, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -87,7 +87,7 @@ defmodule Googly.CloudStorage.Notifications do
       url: "/storage/v1/b/{bucket}/notificationConfigs/{notification}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "notification" => URI.encode(notification, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "notification" => URI.encode(notification, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{

@@ -85,8 +85,7 @@ defmodule Googly.CloudStorage.AnywhereCaches do
       url: "/storage/v1/b/{bucket}/anywhereCaches/{anywhereCacheId}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "anywhereCacheId" =>
-          URI.encode(anywhere_cache_id, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "anywhereCacheId" => URI.encode(anywhere_cache_id, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -325,8 +324,7 @@ defmodule Googly.CloudStorage.AnywhereCaches do
       url: "/storage/v1/b/{bucket}/anywhereCaches/{anywhereCacheId}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "anywhereCacheId" =>
-          URI.encode(anywhere_cache_id, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "anywhereCacheId" => URI.encode(anywhere_cache_id, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{

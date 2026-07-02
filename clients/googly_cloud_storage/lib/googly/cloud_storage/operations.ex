@@ -134,7 +134,7 @@ defmodule Googly.CloudStorage.Operations do
       url: "/storage/v1/b/{bucket}/operations/{operationId}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "operationId" => URI.encode(operation_id, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "operationId" => URI.encode(operation_id, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{

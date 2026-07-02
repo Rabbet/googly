@@ -41,7 +41,7 @@ defmodule Googly.CloudStorage.ObjectAccessControls do
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
         "object" => URI.encode(object, &URI.char_unreserved?/1),
-        "entity" => URI.encode(entity, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "entity" => URI.encode(entity, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -95,7 +95,7 @@ defmodule Googly.CloudStorage.ObjectAccessControls do
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
         "object" => URI.encode(object, &URI.char_unreserved?/1),
-        "entity" => URI.encode(entity, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "entity" => URI.encode(entity, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -256,7 +256,7 @@ defmodule Googly.CloudStorage.ObjectAccessControls do
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
         "object" => URI.encode(object, &URI.char_unreserved?/1),
-        "entity" => URI.encode(entity, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "entity" => URI.encode(entity, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -312,7 +312,7 @@ defmodule Googly.CloudStorage.ObjectAccessControls do
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
         "object" => URI.encode(object, &URI.char_unreserved?/1),
-        "entity" => URI.encode(entity, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "entity" => URI.encode(entity, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{

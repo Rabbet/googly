@@ -9,7 +9,7 @@ defmodule Googly.Generator.Parameter do
   alias Googly.Generator.Type
 
   @enforce_keys [:name, :wire, :variable_name, :type, :location]
-  defstruct [:name, :wire, :variable_name, :description, :type, :location, is_path_trailer: false]
+  defstruct [:name, :wire, :variable_name, :description, :type, :location, reserved?: false]
 
   @type t :: %__MODULE__{
           name: String.t(),
@@ -18,7 +18,7 @@ defmodule Googly.Generator.Parameter do
           description: String.t() | nil,
           type: Type.t(),
           location: String.t(),
-          is_path_trailer: boolean()
+          reserved?: boolean()
         }
 
   @doc "Splits a method's parameters into `{required, optional}`."
@@ -72,7 +72,7 @@ defmodule Googly.Generator.Parameter do
       description: schema[:description],
       type: Type.from_schema(schema, context),
       location: schema[:location] || "query",
-      is_path_trailer: path_trailer?(wire, schema, context, path)
+      reserved?: reserved?(wire, path)
     }
   end
 
@@ -85,12 +85,9 @@ defmodule Googly.Generator.Parameter do
     |> String.trim("_")
   end
 
-  # The Storage API needs `object`/`destinationObject` path separators encoded
-  # even though they trail the path, so they are never treated as trailers.
-  defp path_trailer?(wire, _schema, %{namespace: "Googly.CloudStorage"}, _path)
-       when wire in ["object", "destinationObject"],
-       do: false
-
-  defp path_trailer?(wire, schema, _context, path),
-    do: schema[:location] == "path" and String.ends_with?(path, "{#{wire}}")
+  # `{+wire}` in a discovery path is RFC 6570 reserved expansion: the value is a
+  # resource name (e.g. `projects/p/locations/l/processors/x`) whose `/` must
+  # survive into the URL. Plain `{wire}` (simple expansion) percent-encodes `/`,
+  # which is what a single path segment such as a GCS object name wants.
+  defp reserved?(wire, path), do: String.contains?(path, "{+#{wire}}")
 end

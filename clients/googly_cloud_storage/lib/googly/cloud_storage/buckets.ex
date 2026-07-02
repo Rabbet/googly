@@ -36,7 +36,7 @@ defmodule Googly.CloudStorage.Buckets do
     Request.run(
       method: :delete,
       url: "/storage/v1/b/{bucket}",
-      path_params: %{"bucket" => URI.encode(bucket, &(URI.char_unreserved?(&1) or &1 == ?/))},
+      path_params: %{"bucket" => URI.encode(bucket, &URI.char_unreserved?/1)},
       query: [],
       params: %{
         alt: {:query, "alt"},
@@ -89,7 +89,7 @@ defmodule Googly.CloudStorage.Buckets do
     Request.run(
       method: :get,
       url: "/storage/v1/b/{bucket}",
-      path_params: %{"bucket" => URI.encode(bucket, &(URI.char_unreserved?(&1) or &1 == ?/))},
+      path_params: %{"bucket" => URI.encode(bucket, &URI.char_unreserved?/1)},
       query: [],
       params: %{
         alt: {:query, "alt"},
@@ -401,7 +401,7 @@ defmodule Googly.CloudStorage.Buckets do
     Request.run(
       method: :patch,
       url: "/storage/v1/b/{bucket}",
-      path_params: %{"bucket" => URI.encode(bucket, &(URI.char_unreserved?(&1) or &1 == ?/))},
+      path_params: %{"bucket" => URI.encode(bucket, &URI.char_unreserved?/1)},
       query: [],
       params: %{
         alt: {:query, "alt"},
@@ -649,7 +649,7 @@ defmodule Googly.CloudStorage.Buckets do
     Request.run(
       method: :put,
       url: "/storage/v1/b/{bucket}",
-      path_params: %{"bucket" => URI.encode(bucket, &(URI.char_unreserved?(&1) or &1 == ?/))},
+      path_params: %{"bucket" => URI.encode(bucket, &URI.char_unreserved?/1)},
       query: [],
       params: %{
         alt: {:query, "alt"},

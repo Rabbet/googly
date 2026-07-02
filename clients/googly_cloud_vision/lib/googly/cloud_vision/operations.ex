@@ -38,7 +38,7 @@ defmodule Googly.CloudVision.Operations do
     Request.run(
       method: :post,
       url: "/v1/{+name}:cancel",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -89,7 +89,7 @@ defmodule Googly.CloudVision.Operations do
     Request.run(
       method: :delete,
       url: "/v1/{+name}",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -139,7 +139,7 @@ defmodule Googly.CloudVision.Operations do
     Request.run(
       method: :get,
       url: "/v1/{+name}",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -193,7 +193,7 @@ defmodule Googly.CloudVision.Operations do
     Request.run(
       method: :get,
       url: "/v1/{+name}",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},

@@ -35,14 +35,20 @@ defmodule Googly.Generator.ParameterTest do
       assert param.wire == "maxResults"
     end
 
-    test "a trailing path param is a path trailer" do
-      assert {[param], []} = Parameter.from_method(object_method(), ctx())
-      assert param.is_path_trailer
+    test "a {+name} reserved-expansion path param preserves slashes" do
+      method = %{
+        path: "v1/{+name}:process",
+        parameterOrder: ["name"],
+        parameters: %{name: %{type: "string", location: "path", required: true}}
+      }
+
+      assert {[param], []} = Parameter.from_method(method, ctx())
+      assert param.reserved?
     end
 
-    test "Storage object is never treated as a path trailer" do
-      assert {[param], []} = Parameter.from_method(object_method(), storage_ctx())
-      refute param.is_path_trailer
+    test "a simple {object} path param is not reserved (its slashes are percent-encoded)" do
+      assert {[param], []} = Parameter.from_method(object_method(), ctx())
+      refute param.reserved?
     end
   end
 
@@ -53,9 +59,6 @@ defmodule Googly.Generator.ParameterTest do
   end
 
   defp ctx, do: ResourceContext.with_namespace(ResourceContext.empty(), "Googly.Widget")
-
-  defp storage_ctx,
-    do: ResourceContext.with_namespace(ResourceContext.empty(), "Googly.CloudStorage")
 
   defp object_method do
     %{

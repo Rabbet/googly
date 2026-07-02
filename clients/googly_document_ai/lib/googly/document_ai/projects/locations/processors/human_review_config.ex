@@ -39,7 +39,8 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.HumanReviewConfig do
       method: :post,
       url: "/v1/{+humanReviewConfig}:reviewDocument",
       path_params: %{
-        "humanReviewConfig" => URI.encode(human_review_config, &URI.char_unreserved?/1)
+        "humanReviewConfig" =>
+          URI.encode(human_review_config, &(URI.char_unreserved?(&1) or &1 == ?/))
       },
       query: [],
       params: %{

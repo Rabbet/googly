@@ -38,7 +38,7 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :post,
       url: "/v1/{+name}:batchProcess",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -89,7 +89,7 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :delete,
       url: "/v1/{+name}",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -140,7 +140,7 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :post,
       url: "/v1/{+name}:deploy",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -192,7 +192,10 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :post,
       url: "/v1/{+processorVersion}:evaluateProcessorVersion",
-      path_params: %{"processorVersion" => URI.encode(processor_version, &URI.char_unreserved?/1)},
+      path_params: %{
+        "processorVersion" =>
+          URI.encode(processor_version, &(URI.char_unreserved?(&1) or &1 == ?/))
+      },
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -244,7 +247,7 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :get,
       url: "/v1/{+name}",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -297,7 +300,7 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :get,
       url: "/v1/{+parent}/processorVersions",
-      path_params: %{"parent" => URI.encode(parent, &URI.char_unreserved?/1)},
+      path_params: %{"parent" => URI.encode(parent, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -351,7 +354,7 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :post,
       url: "/v1/{+name}:process",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -403,7 +406,7 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :post,
       url: "/v1/{+parent}/processorVersions:train",
-      path_params: %{"parent" => URI.encode(parent, &URI.char_unreserved?/1)},
+      path_params: %{"parent" => URI.encode(parent, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},
@@ -455,7 +458,7 @@ defmodule Googly.DocumentAI.Projects.Locations.Processors.ProcessorVersions do
     Request.run(
       method: :post,
       url: "/v1/{+name}:undeploy",
-      path_params: %{"name" => URI.encode(name, &URI.char_unreserved?/1)},
+      path_params: %{"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))},
       query: [],
       params: %{
         access_token: {:query, "access_token"},

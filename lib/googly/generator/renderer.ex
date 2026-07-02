@@ -126,7 +126,7 @@ defmodule Googly.Generator.Renderer do
     Enum.map_join(ep.path_parameters, ", ", fn p -> "#{inspect(p.wire)} => #{path_value(p)}" end)
   end
 
-  defp path_value(%{type: %{name: "string"}, is_path_trailer: true, variable_name: v}),
+  defp path_value(%{type: %{name: "string"}, reserved?: true, variable_name: v}),
     do: "URI.encode(#{v}, &(URI.char_unreserved?(&1) or &1 == ?/))"
 
   defp path_value(%{type: %{name: "string"}, variable_name: v}),

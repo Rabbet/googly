@@ -58,12 +58,12 @@ defmodule Googly.Generator.RendererTest do
                "bucket, object, "
     end
 
-    test "path_params URI-encodes, keeping trailing separators for trailers" do
-      ep = %{path_parameters: [path_param("bucket", false), path_param("object", true)]}
+    test "path_params URI-encodes, preserving slashes for reserved (`{+name}`) params" do
+      ep = %{path_parameters: [path_param("bucket", false), path_param("name", true)]}
 
       assert Renderer.path_params(ep) ==
                ~s|"bucket" => URI.encode(bucket, &URI.char_unreserved?/1), | <>
-                 ~s|"object" => URI.encode(object, &(URI.char_unreserved?(&1) or &1 == ?/))|
+                 ~s|"name" => URI.encode(name, &(URI.char_unreserved?(&1) or &1 == ?/))|
     end
 
     test "required_query emits {wire, var} tuples for required query params" do
@@ -108,13 +108,13 @@ defmodule Googly.Generator.RendererTest do
 
   defp var(name), do: %{variable_name: name}
 
-  defp path_param(name, trailer?),
+  defp path_param(name, reserved?),
     do: %{
       location: "path",
       type: %{name: "string"},
       variable_name: name,
       wire: name,
-      is_path_trailer: trailer?
+      reserved?: reserved?
     }
 
   defp query_param(name), do: %{location: "query", name: name, wire: name, variable_name: name}

@@ -38,7 +38,7 @@ defmodule Googly.CloudStorage.Folders do
       url: "/storage/v1/b/{bucket}/folders/{folder}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "folder" => URI.encode(folder, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "folder" => URI.encode(folder, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -142,7 +142,7 @@ defmodule Googly.CloudStorage.Folders do
       url: "/storage/v1/b/{bucket}/folders/{folder}",
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
-        "folder" => URI.encode(folder, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "folder" => URI.encode(folder, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
@@ -300,8 +300,7 @@ defmodule Googly.CloudStorage.Folders do
       path_params: %{
         "bucket" => URI.encode(bucket, &URI.char_unreserved?/1),
         "sourceFolder" => URI.encode(source_folder, &URI.char_unreserved?/1),
-        "destinationFolder" =>
-          URI.encode(destination_folder, &(URI.char_unreserved?(&1) or &1 == ?/))
+        "destinationFolder" => URI.encode(destination_folder, &URI.char_unreserved?/1)
       },
       query: [],
       params: %{
