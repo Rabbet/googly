@@ -1,10 +1,10 @@
-defmodule Googen.Generator.Token do
+defmodule Googly.Generator.Token do
   @moduledoc """
   Mutable-ish state threaded through the generation pipeline for one API.
   """
 
-  alias Googen.ApiConfig
-  alias Googen.Generator.ResourceContext
+  alias Googly.ApiConfig
+  alias Googly.Generator.ResourceContext
 
   defstruct [
     :config,

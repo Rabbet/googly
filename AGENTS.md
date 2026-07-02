@@ -4,7 +4,7 @@ Guidance for agents (and humans) working in this repo.
 
 ## What this is
 
-`googen` generates modern, self-contained Elixir clients for **any** Google API
+`googly` generates modern, self-contained Elixir clients for **any** Google API
 from its [Discovery document](https://developers.google.com/discovery). Two halves:
 
 - **The generator** (`lib/`) — reads a discovery doc and turns it into structs.
@@ -19,7 +19,7 @@ runtime, so it's independently publishable to Hex.
 **Never hand-edit generated clients.** Everything under `clients/` and
 `specifications/gdd/` is build output — gitignored, with only a `.gitkeep`
 tracked. Every generated file starts with `# NOTE: This file is auto generated
-by googen.` To change generated code, edit a **template** or the **generator**
+by googly.` To change generated code, edit a **template** or the **generator**
 and regenerate.
 
 ## Commands
@@ -27,18 +27,18 @@ and regenerate.
 ```sh
 mix test                         # unit tests + one end-to-end; fast
 mix format                       # format all code; fast
-mix googen.discover [substr]     # list Google APIs from the Discovery service
-mix googen.fetch [Name ...]      # cache discovery docs to specifications/gdd/
-mix googen.generate [Name ...]   # fetch (if needed), generate, and format clients
+mix googly.discover [substr]     # list Google APIs from the Discovery service
+mix googly.fetch [Name ...]      # cache discovery docs to specifications/gdd/
+mix googly.generate [Name ...]   # fetch (if needed), generate, and format clients
 ```
 
-No argument → all APIs in `config/apis.json` (currently Storage, Vision,
+No argument → all APIs in `config/apis.json` (currently CloudStorage, CloudVision,
 DocumentAI). After changing a template or the generator, regenerate and confirm
 the output still compiles cleanly:
 
 ```sh
-mix googen.generate Storage
-cd clients/gcp_storage && mix compile --force --warnings-as-errors
+mix googly.generate CloudStorage
+cd clients/googly_cloud_storage && mix compile --force --warnings-as-errors
 ```
 
 ## The pipeline — where to make a change
@@ -48,14 +48,14 @@ discovery JSON → Jason.decode(keys: :atoms) → Model/Api/Endpoint/Type struct
               → EEx templates → clients/<package>/
 ```
 
-Orchestrated in `lib/googen/generator.ex`. To find the right file:
+Orchestrated in `lib/googly/generator.ex`. To find the right file:
 
 | Change                                              | File                                                              |
 | --------------------------------------------------- | ----------------------------------------------------------------- |
-| JSON-schema → Elixir type + decode strategy         | `lib/googen/generator/type.ex`                                    |
+| JSON-schema → Elixir type + decode strategy         | `lib/googly/generator/type.ex`                                    |
 | model collection, inline-object naming, `is_array`  | `generator/model.ex`, `generator/property.ex`                     |
 | endpoint/param derivation, upload variants          | `generator/endpoint.ex`, `generator/parameter.ex`                 |
-| module/package naming (`Gcp.<Name>`)                | `api_config.ex`, `generator/resource_context.ex`                  |
+| module/package naming (`Googly.<Name>`)             | `api_config.ex`, `generator/resource_context.ex`                  |
 | the exact strings emitted into generated code       | `generator/renderer.ex` + `templates/client/*.eex`                |
 | generated runtime (Req glue, decode, encode, error) | `templates/client/{request,response,decode,error,encoder}.ex.eex` |
 
@@ -79,7 +79,7 @@ Orchestrated in `lib/googen/generator.ex`. To find the right file:
 - Each client vendors its runtime (`Request`/`Response`/`Decode`/`Error`/`Encoder`)
   namespaced under its own root — no shared dependency.
 - Public API is flat and stateless:
-  `Gcp.Storage.Objects.get(bucket, object, token: tok, fields: "...")`. Required
+  `Googly.CloudStorage.Objects.get(bucket, object, token: tok, fields: "...")`. Required
   params are positional; everything else (query params, `:body`, `:token`, `:req`)
   rides in the trailing `opts`. Returns `{:ok, decoded}` or
   `{:error, %Error{} | Exception.t()}`.
@@ -90,11 +90,11 @@ Orchestrated in `lib/googen/generator.ex`. To find the right file:
   `EEx.function_from_file` (registered as `@external_resource`), so editing a
   `.eex` recompiles `Renderer` on the next `mix` run — no manual step.
 - **Naming:** the `config/apis.json` `name` is used verbatim as the module root
-  (`Gcp.<Name>`) and, snake-cased, as the package (`gcp_<name>`). `DocumentAI` →
-  `Gcp.DocumentAI` / `gcp_document_ai`; don't let `Macro.camelize` mangle it to
+  (`Googly.<Name>`) and, snake-cased, as the package (`googly_<name>`). `DocumentAI` →
+  `Googly.DocumentAI` / `googly_document_ai`; don't let `Macro.camelize` mangle it to
   `DocumentAi`. Package identity is the name, not the version — for two versions
   of one API, give them distinct names.
-- **The end-to-end test (`test/googen/generator_test.exs`) generates a fixture
+- **The end-to-end test (`test/googly/generator_test.exs`) generates a fixture
   client and compiles it into the VM at runtime.** Hence `consolidate_protocols:
 false` in `:test` (so the generated `Jason.Encoder` impls dispatch), and it
   references generated modules dynamically — no compile-time `%Module{}` literals,
@@ -110,5 +110,5 @@ false` in `:test` (so the generated `Jason.Encoder` impls dispatch), and it
 
 ## Adding an API
 
-Add an entry to `config/apis.json` (`mix googen.discover <term>` finds the URL),
-then `mix googen.generate <Name>`.
+Add an entry to `config/apis.json` (`mix googly.discover <term>` finds the URL),
+then `mix googly.generate <Name>`.

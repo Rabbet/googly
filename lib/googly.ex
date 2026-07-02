@@ -1,12 +1,12 @@
-defmodule Googen do
+defmodule Googly do
   @moduledoc """
   Generates modern, self-contained Elixir clients for any Google API from its
   discovery document. Built on Req + Jason.
   """
 
-  alias Googen.ApiConfig
-  alias Googen.Discovery
-  alias Googen.Generator
+  alias Googly.ApiConfig
+  alias Googly.Discovery
+  alias Googly.Generator
 
   @doc "Downloads and caches the discovery document for `config`."
   defdelegate fetch(config), to: Discovery

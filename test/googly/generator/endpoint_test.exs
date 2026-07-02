@@ -1,8 +1,8 @@
-defmodule Googen.Generator.EndpointTest do
+defmodule Googly.Generator.EndpointTest do
   use ExUnit.Case, async: true
 
-  alias Googen.Generator.Endpoint
-  alias Googen.Generator.ResourceContext
+  alias Googly.Generator.Endpoint
+  alias Googly.Generator.ResourceContext
 
   test "basic endpoint folds the service path and resolves the return type" do
     assert [ep] = Endpoint.from_method("get", get_method(), ctx())
@@ -11,7 +11,7 @@ defmodule Googen.Generator.EndpointTest do
     assert ep.path == "/widget/v1/widgets/{widgetId}"
     assert ep.upload == nil
     assert [%{variable_name: "widget_id", location: "path"}] = ep.required_parameters
-    assert ep.return.struct == "Gcp.Widget.Model.Widget"
+    assert ep.return.struct == "Googly.Widget.Model.Widget"
   end
 
   test "a media-upload method yields basic + media + multipart endpoints" do
@@ -30,7 +30,7 @@ defmodule Googen.Generator.EndpointTest do
 
   defp ctx do
     ResourceContext.empty()
-    |> ResourceContext.with_namespace("Gcp.Widget")
+    |> ResourceContext.with_namespace("Googly.Widget")
     |> ResourceContext.with_base_path("widget/v1/")
   end
 

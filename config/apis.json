@@ -1,11 +1,11 @@
 [
   {
-    "name": "Storage",
+    "name": "CloudStorage",
     "version": "v1",
     "url": "https://storage.googleapis.com/$discovery/rest?version=v1"
   },
   {
-    "name": "Vision",
+    "name": "CloudVision",
     "version": "v1",
     "url": "https://vision.googleapis.com/$discovery/rest?version=v1"
   },

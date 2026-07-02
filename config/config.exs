@@ -1,5 +1,5 @@
 import Config
 
-config :googen,
+config :googly,
   clients_dir: "clients",
   specs_dir: "specifications/gdd"

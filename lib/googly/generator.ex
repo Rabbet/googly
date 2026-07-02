@@ -1,4 +1,4 @@
-defmodule Googen.Generator do
+defmodule Googly.Generator do
   @moduledoc """
   Turns a cached discovery document into a self-contained Elixir client package
   under `clients/<package>/`.
@@ -6,20 +6,20 @@ defmodule Googen.Generator do
 
   require Logger
 
-  alias Googen.Generator.Api
-  alias Googen.Generator.Endpoint
-  alias Googen.Generator.Model
-  alias Googen.Generator.Parameter
-  alias Googen.Generator.Renderer
-  alias Googen.Generator.ResourceContext
-  alias Googen.Generator.Token
+  alias Googly.Generator.Api
+  alias Googly.Generator.Endpoint
+  alias Googly.Generator.Model
+  alias Googly.Generator.Parameter
+  alias Googly.Generator.Renderer
+  alias Googly.Generator.ResourceContext
+  alias Googly.Generator.Token
 
   @doc "Generates the client for `config`. Returns `:ok` or `{:error, reason}`."
   def generate(config) do
     case Token.build(config) do
       nil ->
         {:error,
-         "no spec file at #{Googen.ApiConfig.spec_file(config)} — run mix googen.fetch first"}
+         "no spec file at #{Googly.ApiConfig.spec_file(config)} — run mix googly.fetch first"}
 
       token ->
         token

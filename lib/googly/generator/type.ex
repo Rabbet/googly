@@ -1,4 +1,4 @@
-defmodule Googen.Generator.Type do
+defmodule Googly.Generator.Type do
   @moduledoc """
   Maps a discovery JSON schema onto an Elixir type: a `typespec` string plus a
   `decode` strategy that drives the generated `decode/1`. Discovery schemas
@@ -14,7 +14,7 @@ defmodule Googen.Generator.Type do
     * `{:map, mod}`        — a `%{String.t() => mod.t()}` map
   """
 
-  alias Googen.Generator.ResourceContext
+  alias Googly.Generator.ResourceContext
 
   @enforce_keys [:typespec, :decode]
   defstruct [:name, :struct, :typespec, :decode]

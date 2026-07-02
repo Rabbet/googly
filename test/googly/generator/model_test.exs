@@ -1,8 +1,8 @@
-defmodule Googen.Generator.ModelTest do
+defmodule Googly.Generator.ModelTest do
   use ExUnit.Case, async: true
 
-  alias Googen.Generator.Model
-  alias Googen.Generator.ResourceContext
+  alias Googly.Generator.Model
+  alias Googly.Generator.ResourceContext
 
   test "collects top-level schemas and names inline objects by their nesting path" do
     names = models() |> Enum.map(& &1.name) |> Enum.sort()
@@ -27,7 +27,7 @@ defmodule Googen.Generator.ModelTest do
     setup do
       context =
         ResourceContext.empty()
-        |> ResourceContext.with_namespace("Gcp.Widget")
+        |> ResourceContext.with_namespace("Googly.Widget")
         |> ResourceContext.with_models_by_name(by_name(models()))
 
       widget = models() |> by_name() |> Map.fetch!("Widget")
@@ -43,14 +43,14 @@ defmodule Googen.Generator.ModelTest do
 
     test "types resolve against the model set", %{props: props} do
       assert props["created_at"].type.decode == :datetime
-      assert props["owner"].type.decode == {:struct, "Gcp.Widget.Model.Owner"}
-      assert props["parts"].type.decode == {:struct, "Gcp.Widget.Model.Part"}
-      assert props["parts"].type.typespec == "list(Gcp.Widget.Model.Part.t())"
+      assert props["owner"].type.decode == {:struct, "Googly.Widget.Model.Owner"}
+      assert props["parts"].type.decode == {:struct, "Googly.Widget.Model.Part"}
+      assert props["parts"].type.typespec == "list(Googly.Widget.Model.Part.t())"
       assert props["tags"].type.typespec == "list(String.t())"
       assert props["labels"].type.typespec == "map()"
       assert props["size"].type.typespec == "integer()"
       # the inline object points at its generated model
-      assert props["config"].type.decode == {:struct, "Gcp.Widget.Model.WidgetConfig"}
+      assert props["config"].type.decode == {:struct, "Googly.Widget.Model.WidgetConfig"}
     end
   end
 

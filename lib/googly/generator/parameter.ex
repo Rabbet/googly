@@ -1,12 +1,12 @@
-defmodule Googen.Generator.Parameter do
+defmodule Googly.Generator.Parameter do
   @moduledoc """
   An argument to an endpoint. Required parameters become positional function
   arguments (`variable_name`); optional ones are passed via `opts` keyed by
   their snake_case `name`, translated back to `wire` on the query string.
   """
 
-  alias Googen.Generator.ResourceContext
-  alias Googen.Generator.Type
+  alias Googly.Generator.ResourceContext
+  alias Googly.Generator.Type
 
   @enforce_keys [:name, :wire, :variable_name, :type, :location]
   defstruct [:name, :wire, :variable_name, :description, :type, :location, is_path_trailer: false]
@@ -85,7 +85,7 @@ defmodule Googen.Generator.Parameter do
 
   # The Storage API needs `object`/`destinationObject` path separators encoded
   # even though they trail the path, so they are never treated as trailers.
-  defp path_trailer?(wire, _schema, %{namespace: "Gcp.Storage"}, _path)
+  defp path_trailer?(wire, _schema, %{namespace: "Googly.CloudStorage"}, _path)
        when wire in ["object", "destinationObject"],
        do: false
 

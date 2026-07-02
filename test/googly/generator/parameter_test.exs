@@ -1,8 +1,8 @@
-defmodule Googen.Generator.ParameterTest do
+defmodule Googly.Generator.ParameterTest do
   use ExUnit.Case, async: true
 
-  alias Googen.Generator.Parameter
-  alias Googen.Generator.ResourceContext
+  alias Googly.Generator.Parameter
+  alias Googly.Generator.ResourceContext
 
   describe "from_method/2" do
     test "splits required (ordered by parameterOrder) from optional" do
@@ -52,9 +52,10 @@ defmodule Googen.Generator.ParameterTest do
     assert param.wire == "$.xgafv"
   end
 
-  defp ctx, do: ResourceContext.with_namespace(ResourceContext.empty(), "Gcp.Widget")
+  defp ctx, do: ResourceContext.with_namespace(ResourceContext.empty(), "Googly.Widget")
 
-  defp storage_ctx, do: ResourceContext.with_namespace(ResourceContext.empty(), "Gcp.Storage")
+  defp storage_ctx,
+    do: ResourceContext.with_namespace(ResourceContext.empty(), "Googly.CloudStorage")
 
   defp object_method do
     %{

@@ -1,4 +1,4 @@
-defmodule Googen.Generator.ResourceContext do
+defmodule Googly.Generator.ResourceContext do
   @moduledoc """
   Carries naming state while walking a discovery document: the target module
   namespace, the current nested-property prefix (used to name anonymous inline
@@ -16,13 +16,13 @@ defmodule Googen.Generator.ResourceContext do
 
   def empty, do: %__MODULE__{}
 
-  @doc "Fully-qualified model module for `ref`, e.g. `Gcp.Storage.Model.Bucket`."
+  @doc "Fully-qualified model module for `ref`, e.g. `Googly.Storage.Model.Bucket`."
   def struct_name(%{namespace: ns}, ref), do: "#{ns}.Model.#{Macro.camelize(ref)}"
 
   @doc "Model module for the current anonymous-object prefix."
   def struct_name(context), do: struct_name(context, default_name(context))
 
-  @doc "Typespec string for `ref`, e.g. `Gcp.Storage.Model.Bucket.t()`."
+  @doc "Typespec string for `ref`, e.g. `Googly.Storage.Model.Bucket.t()`."
   def typespec(context, ref), do: struct_name(context, ref) <> ".t()"
 
   @doc "Typespec for the current anonymous-object prefix."

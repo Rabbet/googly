@@ -1,12 +1,12 @@
-defmodule Googen.Generator.Property do
+defmodule Googly.Generator.Property do
   @moduledoc """
   A field of a model. `name` is the snake_case Elixir struct key; `wire` is the
   exact JSON key from the discovery document (they differ for e.g. `timeCreated`
   / `time_created`, and `satisfiesPZS` / `satisfies_pzs`).
   """
 
-  alias Googen.Generator.ResourceContext
-  alias Googen.Generator.Type
+  alias Googly.Generator.ResourceContext
+  alias Googly.Generator.Type
 
   @enforce_keys [:name, :wire, :type]
   defstruct [:name, :wire, :type, :description, :default]

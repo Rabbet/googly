@@ -1,7 +1,7 @@
-defmodule Googen.Generator.RendererTest do
+defmodule Googly.Generator.RendererTest do
   use ExUnit.Case, async: true
 
-  alias Googen.Generator.Renderer
+  alias Googly.Generator.Renderer
 
   describe "doc/2" do
     test "nil renders as empty string" do
@@ -86,11 +86,14 @@ defmodule Googen.Generator.RendererTest do
     end
 
     test "decode_target is the model module, or nil for raw/temporal returns" do
-      assert Renderer.decode_target(%{return: %{struct: "Gcp.Widget.Model.Widget"}}, "Gcp.Widget") ==
-               "Gcp.Widget.Model.Widget"
+      assert Renderer.decode_target(
+               %{return: %{struct: "Googly.Widget.Model.Widget"}},
+               "Googly.Widget"
+             ) ==
+               "Googly.Widget.Model.Widget"
 
-      assert Renderer.decode_target(%{return: %{struct: nil}}, "Gcp.Widget") == "nil"
-      assert Renderer.decode_target(%{return: %{struct: "DateTime"}}, "Gcp.Widget") == "nil"
+      assert Renderer.decode_target(%{return: %{struct: nil}}, "Googly.Widget") == "nil"
+      assert Renderer.decode_target(%{return: %{struct: "DateTime"}}, "Googly.Widget") == "nil"
     end
 
     test "upload_type maps the upload kind" do

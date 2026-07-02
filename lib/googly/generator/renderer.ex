@@ -1,4 +1,4 @@
-defmodule Googen.Generator.Renderer do
+defmodule Googly.Generator.Renderer do
   @moduledoc """
   Renders generated source from EEx templates. Helper functions here are called
   directly from the templates.

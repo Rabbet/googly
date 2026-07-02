@@ -1,40 +1,40 @@
-defmodule Googen.GeneratorTest do
+defmodule Googly.GeneratorTest do
   # Not async: generates a client into a tmp dir and compiles it into the VM.
   use ExUnit.Case, async: false
 
   # These modules are generated and compiled at runtime in setup_all, so the
   # compiler can't see them when this test file is compiled.
-  @compile {:no_warn_undefined, [Gcp.Widget.Model.Widget, Gcp.Widget.Widgets]}
+  @compile {:no_warn_undefined, [Googly.Widget.Model.Widget, Googly.Widget.Widgets]}
 
-  alias Googen.ApiConfig
-  alias Googen.Generator
+  alias Googly.ApiConfig
+  alias Googly.Generator
 
   setup_all do
-    tmp = Path.join(System.tmp_dir!(), "googen_e2e_#{System.unique_integer([:positive])}")
+    tmp = Path.join(System.tmp_dir!(), "googly_e2e_#{System.unique_integer([:positive])}")
     specs = Path.join(tmp, "specs")
     clients = Path.join(tmp, "clients")
     File.mkdir_p!(specs)
     File.cp!("test/fixtures/widget-v1.json", Path.join(specs, "Widget-v1.json"))
 
     previous = {
-      Application.get_env(:googen, :clients_dir),
-      Application.get_env(:googen, :specs_dir)
+      Application.get_env(:googly, :clients_dir),
+      Application.get_env(:googly, :specs_dir)
     }
 
-    Application.put_env(:googen, :clients_dir, clients)
-    Application.put_env(:googen, :specs_dir, specs)
+    Application.put_env(:googly, :clients_dir, clients)
+    Application.put_env(:googly, :specs_dir, specs)
 
     :ok = Generator.generate(%ApiConfig{name: "Widget", version: "v1", url: "unused"})
-    compile_client(Path.join([clients, "gcp_widget", "lib", "gcp", "widget"]))
+    compile_client(Path.join([clients, "googly_widget", "lib", "googly", "widget"]))
 
     on_exit(fn ->
       {prev_clients, prev_specs} = previous
-      Application.put_env(:googen, :clients_dir, prev_clients)
-      Application.put_env(:googen, :specs_dir, prev_specs)
+      Application.put_env(:googly, :clients_dir, prev_clients)
+      Application.put_env(:googly, :specs_dir, prev_specs)
       File.rm_rf!(tmp)
     end)
 
-    {:ok, root: Path.join(clients, "gcp_widget")}
+    {:ok, root: Path.join(clients, "googly_widget")}
   end
 
   test "produces the package scaffolding", %{root: root} do
@@ -47,7 +47,7 @@ defmodule Googen.GeneratorTest do
   # structs are referenced dynamically — no compile-time `%Module{}` literals.
   test "decode/1 builds nested typed structs from a JSON map" do
     widget =
-      Gcp.Widget.Model.Widget.decode(%{
+      Googly.Widget.Model.Widget.decode(%{
         "name" => "w",
         "createdAt" => "2024-01-01T00:00:00Z",
         "satisfiesPZS" => true,
@@ -64,19 +64,19 @@ defmodule Googen.GeneratorTest do
     assert widget.tags == ["red", "blue"]
     assert widget.labels == %{"env" => "prod"}
 
-    assert widget.owner.__struct__ == Gcp.Widget.Model.Owner
+    assert widget.owner.__struct__ == Googly.Widget.Model.Owner
     assert widget.owner.email == "a@b.c"
 
     assert Enum.map(widget.parts, & &1.sku) == ["x", "y"]
-    assert Enum.all?(widget.parts, &(&1.__struct__ == Gcp.Widget.Model.Part))
+    assert Enum.all?(widget.parts, &(&1.__struct__ == Googly.Widget.Model.Part))
 
-    assert widget.config.__struct__ == Gcp.Widget.Model.WidgetConfig
+    assert widget.config.__struct__ == Googly.Widget.Model.WidgetConfig
     assert widget.config.max_items == 3
   end
 
   test "Jason.encode! drops nils and maps snake keys back to wire names" do
     widget =
-      struct(Gcp.Widget.Model.Widget,
+      struct(Googly.Widget.Model.Widget,
         name: "w",
         satisfies_pzs: true,
         created_at: ~U[2024-01-01 00:00:00Z]
@@ -98,9 +98,13 @@ defmodule Googen.GeneratorTest do
     end
 
     assert {:ok, widget} =
-             Gcp.Widget.Widgets.get("w1", token: "tok", fields: "name", req: [adapter: adapter])
+             Googly.Widget.Widgets.get("w1",
+               token: "tok",
+               fields: "name",
+               req: [adapter: adapter]
+             )
 
-    assert widget.__struct__ == Gcp.Widget.Model.Widget
+    assert widget.__struct__ == Googly.Widget.Model.Widget
     assert widget.name == "w1"
 
     assert_received {:captured, :get, url}
@@ -116,7 +120,7 @@ defmodule Googen.GeneratorTest do
     end
 
     assert {:ok, _} =
-             Gcp.Widget.Widgets.get("w1",
+             Googly.Widget.Widgets.get("w1",
                fields: "name",
                token: "tok",
                req: [adapter: adapter, params: [extra: "1"]]
@@ -140,7 +144,7 @@ defmodule Googen.GeneratorTest do
 
     # caller forces alt=media via :req params -> raw bytes, no decoding
     assert {:ok, body} =
-             Gcp.Widget.Widgets.get("w1",
+             Googly.Widget.Widgets.get("w1",
                token: "t",
                req: [adapter: json, params: [alt: "media"]]
              )
@@ -149,13 +153,13 @@ defmodule Googen.GeneratorTest do
 
     # caller overrides a generated alt=media back to alt=json -> decoded struct
     assert {:ok, widget} =
-             Gcp.Widget.Widgets.get("w1",
+             Googly.Widget.Widgets.get("w1",
                alt: "media",
                token: "t",
                req: [adapter: json, params: [alt: "json"]]
              )
 
-    assert widget.__struct__ == Gcp.Widget.Model.Widget
+    assert widget.__struct__ == Googly.Widget.Model.Widget
   end
 
   test "error responses come back as the client's Error struct" do
@@ -165,9 +169,9 @@ defmodule Googen.GeneratorTest do
     end
 
     assert {:error, error} =
-             Gcp.Widget.Widgets.get("missing", token: "tok", req: [adapter: adapter])
+             Googly.Widget.Widgets.get("missing", token: "tok", req: [adapter: adapter])
 
-    assert error.__struct__ == Gcp.Widget.Error
+    assert error.__struct__ == Googly.Widget.Error
     assert error.status == 404
     assert error.code == 404
     assert error.message == "nope"
@@ -184,14 +188,14 @@ defmodule Googen.GeneratorTest do
     end
 
     assert {:ok, body} =
-             Gcp.Widget.Widgets.get("w1", alt: "media", token: "tok", req: [adapter: adapter])
+             Googly.Widget.Widgets.get("w1", alt: "media", token: "tok", req: [adapter: adapter])
 
     # raw bytes, not JSON-decoded to a map and not built into a struct
     assert body == ~s({"stored":"json"})
   end
 
   test "multipart streams a File.Stream from disk with a computed content-length" do
-    path = Path.join(System.tmp_dir!(), "googen_upload_#{System.unique_integer([:positive])}.bin")
+    path = Path.join(System.tmp_dir!(), "googly_upload_#{System.unique_integer([:positive])}.bin")
     File.write!(path, String.duplicate("x", 1000))
     on_exit(fn -> File.rm(path) end)
 
@@ -202,10 +206,10 @@ defmodule Googen.GeneratorTest do
       {request, %Req.Response{status: 200, body: %{"name" => "ok"}}}
     end
 
-    metadata = struct(Gcp.Widget.Model.Widget, name: "obj")
+    metadata = struct(Googly.Widget.Model.Widget, name: "obj")
 
     assert {:ok, _} =
-             Gcp.Widget.Widgets.insert_multipart(metadata, File.stream!(path),
+             Googly.Widget.Widgets.insert_multipart(metadata, File.stream!(path),
                token: "tok",
                content_type: "application/octet-stream",
                req: [adapter: adapter]
@@ -223,7 +227,7 @@ defmodule Googen.GeneratorTest do
     stream = Stream.cycle(["x"]) |> Stream.take(3)
 
     assert_raise ArgumentError, ~r/iodata or a File\.Stream/, fn ->
-      Gcp.Widget.Widgets.insert_media(stream, token: "tok")
+      Googly.Widget.Widgets.insert_media(stream, token: "tok")
     end
   end
 

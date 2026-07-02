@@ -1,11 +1,11 @@
-defmodule Googen.Generator.ResourceContextTest do
+defmodule Googly.Generator.ResourceContextTest do
   use ExUnit.Case, async: true
 
-  alias Googen.Generator.ResourceContext
+  alias Googly.Generator.ResourceContext
 
   test "struct_name/typespec for a ref" do
-    assert ResourceContext.struct_name(ns(), "bucket") == "Gcp.Widget.Model.Bucket"
-    assert ResourceContext.typespec(ns(), "bucket") == "Gcp.Widget.Model.Bucket.t()"
+    assert ResourceContext.struct_name(ns(), "bucket") == "Googly.Widget.Model.Bucket"
+    assert ResourceContext.typespec(ns(), "bucket") == "Googly.Widget.Model.Bucket.t()"
   end
 
   test "with_property builds a camelCase-accumulating prefix used to name inline objects" do
@@ -16,7 +16,7 @@ defmodule Googen.Generator.ResourceContextTest do
 
     assert ResourceContext.name(context, "policy") == "BucketObjectRetentionPolicy"
     # the anonymous-object struct name uses that prefix
-    assert ResourceContext.struct_name(context) == "Gcp.Widget.Model.BucketObjectRetention"
+    assert ResourceContext.struct_name(context) == "Googly.Widget.Model.BucketObjectRetention"
   end
 
   describe "path/2" do
@@ -31,5 +31,5 @@ defmodule Googen.Generator.ResourceContextTest do
     end
   end
 
-  defp ns, do: ResourceContext.with_namespace(ResourceContext.empty(), "Gcp.Widget")
+  defp ns, do: ResourceContext.with_namespace(ResourceContext.empty(), "Googly.Widget")
 end

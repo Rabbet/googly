@@ -1,10 +1,10 @@
-defmodule Googen.Discovery do
+defmodule Googly.Discovery do
   @moduledoc """
   Fetches Google API discovery documents and caches them under `specs_dir`.
   """
 
   require Logger
-  alias Googen.ApiConfig
+  alias Googly.ApiConfig
 
   @doc """
   Downloads the discovery document for `config` and writes it to its spec file.

@@ -1,11 +1,11 @@
-defmodule Mix.Tasks.Googen.Discover do
+defmodule Mix.Tasks.Googly.Discover do
   @shortdoc "List Google APIs available from the Discovery service"
   @moduledoc """
   Prints every public Google API (name, version, discovery URL) so you can pick
   ones to add to `config/apis.json`.
 
-      mix googen.discover           # all preferred APIs
-      mix googen.discover storage   # filter by substring
+      mix googly.discover           # all preferred APIs
+      mix googly.discover storage   # filter by substring
   """
   use Mix.Task
 
@@ -14,7 +14,7 @@ defmodule Mix.Tasks.Googen.Discover do
     Application.ensure_all_started(:req)
     filter = List.first(args)
 
-    case Googen.Discovery.list() do
+    case Googly.Discovery.list() do
       {:ok, items} ->
         items
         |> maybe_filter(filter)

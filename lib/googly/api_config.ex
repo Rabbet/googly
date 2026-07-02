@@ -1,4 +1,4 @@
-defmodule Googen.ApiConfig do
+defmodule Googly.ApiConfig do
   @moduledoc """
   A single entry from `config/apis.json` describing a Google API to generate.
 
@@ -11,20 +11,20 @@ defmodule Googen.ApiConfig do
 
   @type t :: %__MODULE__{name: String.t(), version: String.t(), url: String.t()}
 
-  @doc "Hex package name, e.g. `\"gcp_storage\"`."
-  def package_name(%__MODULE__{name: name}), do: "gcp_" <> Macro.underscore(name)
+  @doc "Hex package name, e.g. `\"googly_storage\"`."
+  def package_name(%__MODULE__{name: name}), do: "googly_" <> Macro.underscore(name)
 
-  @doc "Root module namespace, e.g. `\"Gcp.Storage\"`."
-  def module_root(%__MODULE__{name: name}), do: "Gcp." <> name
+  @doc "Root module namespace, e.g. `\"Googly.Storage\"`."
+  def module_root(%__MODULE__{name: name}), do: "Googly." <> name
 
-  @doc "Directory the generated client is written to, e.g. `\"clients/gcp_storage\"`."
+  @doc "Directory the generated client is written to, e.g. `\"clients/googly_storage\"`."
   def client_dir(config) do
-    Path.join(Application.get_env(:googen, :clients_dir, "clients"), package_name(config))
+    Path.join(Application.get_env(:googly, :clients_dir, "clients"), package_name(config))
   end
 
   @doc "Cached discovery document path, e.g. `\"specifications/gdd/Storage-v1.json\"`."
   def spec_file(%__MODULE__{name: name, version: version}) do
-    dir = Application.get_env(:googen, :specs_dir, "specifications/gdd")
+    dir = Application.get_env(:googly, :specs_dir, "specifications/gdd")
     Path.join(dir, "#{name}-#{version}.json")
   end
 

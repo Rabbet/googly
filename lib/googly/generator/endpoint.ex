@@ -1,4 +1,4 @@
-defmodule Googen.Generator.Endpoint do
+defmodule Googly.Generator.Endpoint do
   @moduledoc """
   A single callable API method: an HTTP verb + path + parameters. Required
   parameters become positional args; optional ones ride in `opts`.
@@ -7,9 +7,9 @@ defmodule Googen.Generator.Endpoint do
   `_multipart` (metadata + bytes) variants that post to the upload endpoint.
   """
 
-  alias Googen.Generator.Parameter
-  alias Googen.Generator.ResourceContext
-  alias Googen.Generator.Type
+  alias Googly.Generator.Parameter
+  alias Googly.Generator.ResourceContext
+  alias Googly.Generator.Type
 
   @enforce_keys [:name, :method, :path]
   defstruct [

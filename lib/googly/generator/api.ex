@@ -1,7 +1,7 @@
-defmodule Googen.Generator.Api do
+defmodule Googly.Generator.Api do
   @moduledoc "A resource: a named group of endpoints (e.g. `Objects`, `Buckets`)."
 
-  alias Googen.Generator.Endpoint
+  alias Googly.Generator.Endpoint
 
   @enforce_keys [:name]
   defstruct [:name, :filename, :description, endpoints: []]

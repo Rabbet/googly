@@ -1,12 +1,12 @@
-defmodule Googen.Generator.Model do
+defmodule Googly.Generator.Model do
   @moduledoc """
   A resource type used by the API. Inline (anonymous) object schemas become
   their own models, named by their nesting path — e.g. the `objectRetention`
   field of `Bucket` yields a `BucketObjectRetention` model.
   """
 
-  alias Googen.Generator.Property
-  alias Googen.Generator.ResourceContext
+  alias Googly.Generator.Property
+  alias Googly.Generator.ResourceContext
 
   @enforce_keys [:name]
   defstruct [:name, :filename, :description, :schema, properties: [], is_array: false]

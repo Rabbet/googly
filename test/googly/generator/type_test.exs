@@ -1,9 +1,9 @@
-defmodule Googen.Generator.TypeTest do
+defmodule Googly.Generator.TypeTest do
   use ExUnit.Case, async: true
 
-  alias Googen.Generator.Model
-  alias Googen.Generator.ResourceContext
-  alias Googen.Generator.Type
+  alias Googly.Generator.Model
+  alias Googly.Generator.ResourceContext
+  alias Googly.Generator.Type
 
   describe "scalars" do
     test "string" do
@@ -51,9 +51,9 @@ defmodule Googen.Generator.TypeTest do
 
     test "array of refs decodes via the element module (decode/1 handles lists)" do
       assert %Type{
-               typespec: "list(Gcp.Widget.Model.Part.t())",
-               struct: "Gcp.Widget.Model.Part",
-               decode: {:struct, "Gcp.Widget.Model.Part"}
+               typespec: "list(Googly.Widget.Model.Part.t())",
+               struct: "Googly.Widget.Model.Part",
+               decode: {:struct, "Googly.Widget.Model.Part"}
              } = Type.from_schema(%{type: "array", items: %{"$ref": "Part"}}, ctx())
     end
 
@@ -81,8 +81,8 @@ defmodule Googen.Generator.TypeTest do
 
     test "ref values -> typed map decoded per value" do
       assert %Type{
-               typespec: "%{optional(String.t()) => Gcp.Widget.Model.Owner.t()}",
-               decode: {:map, "Gcp.Widget.Model.Owner"}
+               typespec: "%{optional(String.t()) => Googly.Widget.Model.Owner.t()}",
+               decode: {:map, "Googly.Widget.Model.Owner"}
              } = Type.from_schema(%{additionalProperties: %{"$ref": "Owner"}}, ctx())
     end
   end
@@ -91,16 +91,16 @@ defmodule Googen.Generator.TypeTest do
     test "object ref" do
       assert %Type{
                name: "object",
-               struct: "Gcp.Widget.Model.Owner",
-               typespec: "Gcp.Widget.Model.Owner.t()",
-               decode: {:struct, "Gcp.Widget.Model.Owner"}
+               struct: "Googly.Widget.Model.Owner",
+               typespec: "Googly.Widget.Model.Owner.t()",
+               decode: {:struct, "Googly.Widget.Model.Owner"}
              } = Type.from_schema(%{"$ref": "Owner"}, ctx())
     end
 
     test "ref to an array-typed model becomes a list" do
       models = %{"Parts" => %Model{name: "Parts", is_array: true}}
 
-      assert %Type{name: "array", typespec: "list(Gcp.Widget.Model.Parts.t())"} =
+      assert %Type{name: "array", typespec: "list(Googly.Widget.Model.Parts.t())"} =
                Type.from_schema(%{"$ref": "Parts"}, ctx(models))
     end
   end
@@ -114,7 +114,7 @@ defmodule Googen.Generator.TypeTest do
     assert %Type{typespec: "nil"} = Type.empty()
   end
 
-  defp ctx, do: ResourceContext.with_namespace(ResourceContext.empty(), "Gcp.Widget")
+  defp ctx, do: ResourceContext.with_namespace(ResourceContext.empty(), "Googly.Widget")
 
   defp ctx(models_by_name), do: ResourceContext.with_models_by_name(ctx(), models_by_name)
 end
