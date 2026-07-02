@@ -1,16 +1,27 @@
 defmodule Mix.Tasks.Googly.Release do
-  @shortdoc "Bump versions and publish generated clients to Hex"
+  @shortdoc "Bump client versions and print the Hex publish commands"
   @moduledoc """
-  Bumps each client's version and publishes it to Hex (package + docs).
+  Bumps each client's version and prints the `mix hex.publish` command for each
+  package. Publishing itself is left to you to run.
 
-      HEX_API_KEY=... mix googly.release               # all configured clients
-      HEX_API_KEY=... mix googly.release CloudStorage  # just one
-      mix googly.release --minor                       # minor bump (default: patch)
-      mix googly.release --no-bump                     # publish current versions as-is
+      mix googly.release               # patch-bump every client, print publish cmds
+      mix googly.release CloudStorage  # just one
+      mix googly.release --minor       # minor bump (default: patch)
+      mix googly.release --no-bump     # don't bump; just print the publish commands
 
-  Run `mix googly.generate` first so the client source is current, review the
-  diff, and commit the regenerated + version-bumped output alongside the release.
-  The version lives in each client's `mix.exs` and is preserved across
+  Publishing is manual on purpose: `mix hex.publish` needs a real terminal for
+  Hex's passphrase and 2FA prompts, which a Mix-spawned subprocess can't provide.
+  So this task automates the tedious part (bumping every package in lockstep) and
+  hands you the commands to run in your shell.
+
+  Typical flow:
+
+      mix googly.generate            # refresh from discovery
+      mix googly.release             # bump versions + print publish commands
+      git add . && git commit        # commit the regenerated + bumped output
+      # then run each printed `mix hex.publish` yourself
+
+  Versions live in each client's `mix.exs` and are preserved across
   regenerations, so bumps stick.
   """
   use Mix.Task
@@ -32,16 +43,22 @@ defmodule Mix.Tasks.Googly.Release do
     configs =
       if names == [], do: ApiConfig.load_all(), else: Enum.flat_map(names, &ApiConfig.load/1)
 
-    Enum.each(configs, &release(&1, bump))
+    dirs =
+      Enum.map(configs, fn config ->
+        dir = ApiConfig.client_dir(config)
+        if bump, do: bump_version(dir, bump)
+        dir
+      end)
+
+    print_publish_commands(dirs)
   end
 
-  defp release(config, bump) do
-    dir = ApiConfig.client_dir(config)
-    if bump, do: bump_version(dir, bump)
+  defp print_publish_commands(dirs) do
+    Mix.shell().info(
+      "\nCommit the changes, then publish each package (Hex prompts for passphrase/2FA):\n"
+    )
 
-    Mix.shell().info("Publishing #{ApiConfig.package_name(config)} from #{dir}")
-    run!(dir, ["deps.get"])
-    run!(dir, ["hex.publish", "--yes"])
+    Enum.each(dirs, &Mix.shell().info("    (cd #{&1} && mix hex.publish)"))
   end
 
   defp bump_version(dir, kind) do
@@ -61,11 +78,5 @@ defmodule Mix.Tasks.Googly.Release do
       :patch -> %{version | patch: version.patch + 1}
     end
     |> to_string()
-  end
-
-  defp run!(dir, args) do
-    {out, status} = System.cmd("mix", args, cd: dir, stderr_to_stdout: true)
-    Mix.shell().info(out)
-    if status != 0, do: Mix.raise("`mix #{Enum.join(args, " ")}` failed in #{dir}")
   end
 end

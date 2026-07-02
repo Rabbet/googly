@@ -123,13 +123,16 @@ then `mix googly.generate <Name>`. The `name` becomes the module root
 Each client is its own Hex package (`googly_<name>`), published from its subdir.
 
 ```sh
-mix googly.generate                       # refresh from latest discovery
-git add clients && git commit             # reviewable diff; commit + tag the release
-HEX_API_KEY=… mix googly.release           # bump (patch) + mix hex.publish per client
+mix googly.generate            # refresh from latest discovery
+mix googly.release             # bump every client's @version + print publish cmds
+git add . && git commit        # commit the regenerated + bumped output
+# then run each printed `mix hex.publish` yourself
 ```
 
 `mix googly.release [Name ...]` bumps each client's `mix.exs` `@version` (patch by
-default, `--minor` for minor, `--no-bump` to publish as-is), runs `mix deps.get`,
-and `mix hex.publish --yes` (package + ExDoc). Versions live in the committed
-`mix.exs` and are preserved across regenerations, so bumps persist. Publish docs
-ride along via the generated `:ex_doc` dev dep.
+default, `--minor`, or `--no-bump`) and prints the `cd <client> && mix hex.publish`
+command for each. **Publishing is manual**: `mix hex.publish` needs a real
+terminal for Hex's passphrase and 2FA prompts, which a Mix-spawned subprocess
+can't drive — so the task automates the lockstep version bump and hands you the
+commands. Versions live in the committed `mix.exs` and survive regeneration, so
+bumps stick; `mix hex.publish` ships ExDoc docs via the generated `:ex_doc` dep.
