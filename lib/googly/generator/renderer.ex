@@ -66,7 +66,7 @@ defmodule Googly.Generator.Renderer do
   def formatter,
     do: "[\n  inputs: [\"{mix,.formatter}.exs\", \"{config,lib,test}/**/*.{ex,exs}\"]\n]\n"
 
-  def gitignore, do: "/_build/\n/cover/\n/deps/\n/doc/\nerl_crash.dump\n*.ez\n*.beam\n"
+  def gitignore, do: "/_build/\n/cover/\n/deps/\n/doc/\n/mix.lock\nerl_crash.dump\n*.ez\n*.beam\n"
 
   # -- template helpers -------------------------------------------------------
 
@@ -169,7 +169,18 @@ defmodule Googly.Generator.Renderer do
 
   # -- derived package metadata ----------------------------------------------
 
-  defp version(_token), do: "0.1.0"
+  # Preserve the existing version across regenerations (release bumps it); new
+  # clients start at 0.1.0.
+  defp version(token) do
+    path = Path.join(token.root_dir, "mix.exs")
+
+    with {:ok, content} <- File.read(path),
+         [_, current] <- Regex.run(~r/@version "([\d.]+)"/, content) do
+      current
+    else
+      _ -> "0.1.0"
+    end
+  end
 
   defp title(token), do: token.rest[:title] || token.module_root
 
