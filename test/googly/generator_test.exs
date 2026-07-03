@@ -196,7 +196,12 @@ defmodule Googly.GeneratorTest do
 
   test "multipart streams a File.Stream from disk with a computed content-length" do
     path = Path.join(System.tmp_dir!(), "googly_upload_#{System.unique_integer([:positive])}.bin")
-    File.write!(path, String.duplicate("x", 1000))
+    # Binary content with CRLF and high bytes: the default `File.stream!/1` uses
+    # `:line` mode, which rewrites newlines and yields fewer bytes than File.stat!
+    # reports. The body must be read raw or content-length overshoots it and the
+    # upload fails — this content makes that regression observable.
+    content = String.duplicate("row\r\n", 64) <> <<0, 13, 255, 10, 200>>
+    File.write!(path, content)
     on_exit(fn -> File.rm(path) end)
 
     parent = self()
@@ -220,7 +225,8 @@ defmodule Googly.GeneratorTest do
     # content-length is set and matches the fully-assembled multipart body
     assert [length] = headers["content-length"]
     assert String.to_integer(length) == byte_size(bytes)
-    assert String.contains?(bytes, String.duplicate("x", 1000))
+    # the raw file bytes survive intact in the body, newlines and all
+    assert String.contains?(bytes, content)
   end
 
   test "a size-less stream is rejected (Google uploads require a content-length)" do

@@ -105,10 +105,16 @@ defmodule <%= root %>.Request do
   end
 
   # Normalises `data` into `{enumerable, byte_size}`. iodata is measured; a
-  # File.Stream stays lazy with its size read from disk. Size-less streams aren't
-  # supported — Google's simple/multipart uploads need a content-length, so
-  # stream from a file or read the content into memory.
-  defp payload(%File.Stream{path: path} = stream), do: {stream, File.stat!(path).size}
+  # File.Stream's size is read from disk with File.stat!, so its body must yield
+  # exactly those bytes. We re-open the path in raw byte mode rather than trusting
+  # the passed stream: the default `File.stream!/1` uses `:line` mode, which
+  # rewrites newlines and so yields fewer bytes than the on-disk size — the
+  # content-length would then overshoot the body and the upload would fail.
+  # Size-less streams aren't supported — Google's simple/multipart uploads need a
+  # content-length, so stream from a file or read the content into memory.
+  defp payload(%File.Stream{path: path}),
+    do: {File.stream!(path, 64 * 1024, [:raw, :binary]), File.stat!(path).size}
+
   defp payload(data) when is_binary(data) or is_list(data), do: {[data], IO.iodata_length(data)}
 
   defp payload(other) do
