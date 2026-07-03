@@ -26,9 +26,9 @@ token = Goth.fetch!(MyApp.Goth).token
 ```
 
 Every call returns `{:ok, decoded}` on success. Failures are
-`{:error, %<%= root %>.Error{}}` for an error *response* (HTTP 4xx/5xx), or
+`{:error, %<%= root %>.Error{}}` for an error _response_ (HTTP 4xx/5xx), or
 `{:error, exception}` (e.g. `%Req.TransportError{}`) for transport-level failures.
 
 ## Docs
 
-* [Upstream API reference](<%= docs_link %>)
+- [Upstream API reference](<%= docs_link %>)
