@@ -22,7 +22,7 @@ Authentication is your concern — pass an OAuth2 bearer token (e.g. from
 ```elixir
 token = Goth.fetch!(MyApp.Goth).token
 
-{:ok, result} = <%= root %>.<%= example_resource %>.<%= example_fun %>(token: token)
+{:ok, result} = <%= root %>.<%= example_resource %>.<%= example_fun %>(<%= example_args %>token: token)
 ```
 
 Every call returns `{:ok, decoded}` on success. Failures are

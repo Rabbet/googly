@@ -33,8 +33,8 @@ builder-pattern request API. googly takes a different tack:
 
 ```sh
 mix deps.get
-mix googly.generate Storage    # fetch + generate + format one API
-mix googly.generate            # everything in config/apis.json
+mix googly.generate CloudStorage    # fetch + generate + format one API
+mix googly.generate                 # everything in config/apis.json
 ```
 
 Generated clients land in `clients/<package>/` (e.g. `clients/googly_cloud_storage`),

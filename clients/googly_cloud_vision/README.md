@@ -22,7 +22,7 @@ Authentication is your concern — pass an OAuth2 bearer token (e.g. from
 ```elixir
 token = Goth.fetch!(MyApp.Goth).token
 
-{:ok, result} = Googly.CloudVision.Files.annotate(token: token)
+{:ok, result} = Googly.CloudVision.Operations.get("name", token: token)
 ```
 
 Every call returns `{:ok, decoded}` on success. Failures are
