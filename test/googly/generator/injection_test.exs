@@ -145,7 +145,9 @@ defmodule Googly.Generator.InjectionTest do
           ast
 
         {:error, err} ->
-          flunk("generated Request did not parse (rootUrl escaped its slot): #{inspect(err)}\n\n#{src}")
+          flunk(
+            "generated Request did not parse (rootUrl escaped its slot): #{inspect(err)}\n\n#{src}"
+          )
       end
 
     values =
