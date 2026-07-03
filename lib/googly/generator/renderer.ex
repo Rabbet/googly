@@ -48,7 +48,8 @@ defmodule Googly.Generator.Renderer do
     :title,
     :docs_link,
     :example_resource,
-    :example_fun
+    :example_fun,
+    :example_args
   ])
 
   # -- package-file wrappers (compute derived values from the token) ----------
@@ -64,7 +65,7 @@ defmodule Googly.Generator.Renderer do
   end
 
   def readme(token) do
-    {resource, fun} = example_call(token)
+    {resource, fun, args} = example_call(token)
 
     readme_tpl(
       token.module_root,
@@ -74,7 +75,8 @@ defmodule Googly.Generator.Renderer do
       title(token),
       docs_link(token),
       resource,
-      fun
+      fun,
+      args
     )
   end
 
@@ -249,11 +251,50 @@ defmodule Googly.Generator.Renderer do
     end
   end
 
+  # The README's example call. Any endpoint would compile, but the example is
+  # the reader's first impression, so pick a safe read-only one: an HTTP GET
+  # (a POST would silently send no `:body`; a DELETE example is destructive),
+  # preferring plain `get`/`list` names, fewer required arguments, and
+  # shallower resources — deterministically, so regeneration is stable.
   defp example_call(token) do
-    with %{name: resource, endpoints: [%{name: fun} | _]} <- List.first(token.apis) do
-      {resource, fun}
-    else
-      _ -> {"Resource", "call"}
+    candidates = for api <- token.apis, endpoint <- api.endpoints, do: {api, endpoint}
+
+    case Enum.filter(candidates, fn {_api, endpoint} -> endpoint.method == :get end) do
+      [] -> example_call_from(List.first(candidates))
+      gets -> example_call_from(Enum.min_by(gets, &example_rank/1))
+    end
+  end
+
+  defp example_call_from({api, endpoint}),
+    do: {api.name, endpoint.name, example_args(endpoint)}
+
+  defp example_call_from(nil), do: {"Resource", "call", ""}
+
+  defp example_rank({api, endpoint}) do
+    name_rank =
+      case endpoint.name do
+        "get" -> 0
+        "list" -> 1
+        _ -> 2
+      end
+
+    depth = api.name |> String.split(".") |> length()
+    {name_rank, length(endpoint.required_parameters), depth, api.name, endpoint.name}
+  end
+
+  # Placeholder positional arguments (with trailing comma) for the README example
+  # call, mirroring `signature_args/1` but with literal placeholders standing in
+  # for the required params. Empty when the endpoint takes none.
+  defp example_args(%{required_parameters: []}), do: ""
+
+  defp example_args(%{required_parameters: ps}),
+    do: Enum.map_join(ps, ", ", &example_value/1) <> ", "
+
+  defp example_value(%{type: %{name: name}, variable_name: v}) do
+    case name do
+      n when n in ["integer", "number", "float"] -> "0"
+      "boolean" -> "false"
+      _ -> inspect(v)
     end
   end
 end

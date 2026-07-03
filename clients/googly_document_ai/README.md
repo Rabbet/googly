@@ -22,7 +22,7 @@ Authentication is your concern — pass an OAuth2 bearer token (e.g. from
 ```elixir
 token = Goth.fetch!(MyApp.Goth).token
 
-{:ok, result} = Googly.DocumentAI.Operations.delete(token: token)
+{:ok, result} = Googly.DocumentAI.Projects.Locations.get("name", token: token)
 ```
 
 Every call returns `{:ok, decoded}` on success. Failures are

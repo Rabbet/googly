@@ -43,6 +43,27 @@ defmodule Googly.GeneratorTest do
     end
   end
 
+  test "the README example calls a real generated function", %{root: root} do
+    readme = File.read!(Path.join(root, "README.md"))
+
+    assert [line] =
+             readme |> String.split("\n") |> Enum.filter(&String.contains?(&1, "{:ok, result}"))
+
+    # `{:ok, result} = Googly.Widget.<Resource>.<fun>(<args>, token: token)` —
+    # parse it and check the call fills the full head of the compiled function.
+    # Arity alone can't catch a missing positional arg: `def get(w, opts \\ [])`
+    # also exports `get/1`, so `get(token: token)` would still resolve (binding
+    # the keyword list to `w`). The example must supply every positional arg
+    # plus the trailing opts, i.e. match the function's maximum exported arity.
+    assert {:=, _, [_, {{:., _, [module_alias, fun]}, _, args}]} = Code.string_to_quoted!(line)
+    module = Macro.expand(module_alias, __ENV__)
+
+    arities = for {f, a} <- module.module_info(:exports), f == fun, do: a
+    assert arities != [], "README example calls unknown #{inspect(module)}.#{fun}"
+    assert length(args) == Enum.max(arities)
+    assert [{:token, _} | _] = List.last(args)
+  end
+
   # The generated modules only exist at runtime (compiled in setup_all), so
   # structs are referenced dynamically — no compile-time `%Module{}` literals.
   test "decode/1 builds nested typed structs from a JSON map" do
